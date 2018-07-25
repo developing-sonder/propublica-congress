@@ -1,0 +1,36 @@
+{
+    "name": "developing-sonder/propublica-congress",
+    "description": "PHP SDK for ProPublica's Congress API",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Matthew Moore",
+            "email": "matthew@developingsonder.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">=7.2",
+        "illuminate/contracts": "5.1.*|5.2.*|5.3.*|5.4.*|5.5.*|5.6.*",
+        "illuminate/support": "5.1.*|5.2.*|5.3.*|5.4.*|5.5.*|5.6.*",
+        "guzzlehttp/guzzle": "^6.3"
+    },
+    "require-dev": {
+        "graham-campbell/testbench": "4.*",
+        "mockery/mockery": "^0.9",
+        "phpunit/phpunit": "^4.8|^5.0|^6.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "DevelopingSonder\\PropublicaCongress\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "DevelopingSonder\\PropublicaCongress\\": "tests/"
+        }
+    },
+    "prefer-stable": true
+
+}
