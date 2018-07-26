@@ -10,10 +10,10 @@ namespace DevelopingSonder\PropublicaCongress;
 use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\Request;
 
-class Client
+class Connection
 {
     private static $instance;
-    public $client;
+    public $guzzleClient;
     protected $options;
 
     public static function instance()
@@ -30,7 +30,7 @@ class Client
     {
         $api_version = env("PROPUBLICA_API_VERSION") ?? "v1";
         $this->options = [];
-        $this->client = new GuzzleClient([
+        $this->guzzleClient = new GuzzleClient([
             "base_uri" => "https://api.propublica.org/congress/{$api_version}/",
             "headers" => [
                 "X-API-Key" => env("PROPUBLICA_API_KEY")
@@ -40,7 +40,7 @@ class Client
 
     public function get($endpoint)
     {
-        return $this->client->request("GET", $endpoint);
+        return $this->guzzleClient->request("GET", $endpoint);
     }
 
 }

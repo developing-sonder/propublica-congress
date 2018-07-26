@@ -30,4 +30,12 @@ class Response
     {
         $this->attributes->put($name, $value);
     }
+
+    /**
+     * @return array
+     */
+    public function all()
+    {
+        return $this->attributes->all();
+    }
 }
