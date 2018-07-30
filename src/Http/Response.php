@@ -1,41 +1,34 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: mmoore
- * Date: 7/25/18
- * Time: 10:10 AM
- */
-
 namespace DevelopingSonder\PropublicaCongress;
 
 use GuzzleHttp\Psr7\Response as GuzzleResponse;
 
 class Response
 {
-    public $attributes;
+    public $contents;
     protected $response;
 
     public function __construct(GuzzleResponse $response)
     {
         $this->response = $response;
-        $this->attributes = collect($response->getBody()->getContents());
+        $this->contents = collect(json_decode($response->getBody()->getContents()));
     }
 
     public function __get($name)
     {
-        return $this->attributes->get($name);
+        return $this->contents->get($name);
     }
 
     public function __set($name, $value)
     {
-        $this->attributes->put($name, $value);
+        $this->contents->put($name, $value);
     }
 
     /**
      * @return array
      */
-    public function all()
+    public function results()
     {
-        return $this->attributes->all();
+        return $this->contents->get('results');
     }
 }
