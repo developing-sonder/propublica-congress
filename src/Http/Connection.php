@@ -5,7 +5,7 @@
  * Date: 7/25/18
  * Time: 8:54 AM
  */
-namespace DevelopingSonder\PropublicaCongress;
+namespace DevelopingSonder\PropublicaCongress\Http;
 
 use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\Request;

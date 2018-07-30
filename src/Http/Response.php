@@ -1,5 +1,5 @@
 <?php
-namespace DevelopingSonder\PropublicaCongress;
+namespace DevelopingSonder\PropublicaCongress\Http;
 
 use GuzzleHttp\Psr7\Response as GuzzleResponse;
 
@@ -25,6 +25,9 @@ class Response
     }
 
     /**
+     * @description The results key holds the expected data from the client GET.
+     *              While the json response holds other data pertaining to the
+     *              method call, the results key hold our expected data.
      * @return array
      */
     public function results()
