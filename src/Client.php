@@ -22,6 +22,40 @@ class Client
      **********************************************************/
 
     /**
+     * @documentation https://projects.propublica.org/api-docs/congress-api/members/#compare-two-members-bill-sponsorships
+     * @endpoint https://api.propublica.org/congress/v1/members/{first-member-id}/bills/{second-member-id}/{congress}/{chamber}.json
+     *
+     * @param $member1
+     * @param $member2
+     * @param $congress
+     * @param $chamber
+     * @return array
+     * @throws Exception
+     */
+    public function compareMembersBillSponsorships($member1, $member2, $congress, $chamber)
+    {
+        $endpoint = "members/{$member1}/bills/{$member2}/{$congress}/{$chamber}.json";
+        return $this->makeCall($endpoint);
+    }
+
+    /**
+     * @documentation https://projects.propublica.org/api-docs/congress-api/members/#compare-two-members-vote-positions
+     * @endpoint https://api.propublica.org/congress/v1/members/{first-member-id}/votes/{second-member-id}/{congress}/{chamber}.json
+     *
+     * @param $member1 integer
+     * @param $member2 integer
+     * @param $congress string
+     * @param $chamber - Accepted values are senate and house.
+     * @return array
+     * @throws Exception
+     */
+    public function compareMembersVotePositions($member1, $member2, $congress, $chamber)
+    {
+        $endpoint = "members/{$member1}/votes/{$member2}/{$congress}/{$chamber}.json";
+        return $this->makeCall($endpoint);
+    }
+
+    /**
      * @documentation https://projects.propublica.org/api-docs/congress-api/members/#get-members-leaving-office
      * @endpoint https://api.propublica.org/congress/v1/{congress}/{chamber}/members/leaving.json
      *
@@ -130,6 +164,53 @@ class Client
     public function getNewMembers()
     {
         $endpoint = "members/new.json";
+        return $this->makeCall($endpoint);
+    }
+
+    /**
+     * @documentation https://projects.propublica.org/api-docs/congress-api/members/#get-quarterly-office-expenses-by-a-specific-house-member
+     * @endpoint https://api.propublica.org/congress/v1/members/{member-id}/office_expenses/{year}/{quarter}.json
+     *
+     * @param $member
+     * @param $quarter
+     * @param $year
+     * @return array
+     * @throws Exception
+     */
+    public function getMemberQuarterlyOfficeExpenses($member, $quarter, $year)
+    {
+        $endpoint = "members/{$member}/office_expenses/{$year}/{$quarter}.json";
+        return $this->makeCall($endpoint);
+    }
+
+    /**
+     * @documentation https://projects.propublica.org/api-docs/congress-api/members/#get-quarterly-office-expenses-by-category-for-a-specific-house-member
+     * @endpoint https://api.propublica.org/congress/v1/members/{member-id}/office_expenses/category/{category}.json
+     *
+     * @param $member
+     * @param $category
+     * @return array
+     * @throws Exception
+     */
+    public function getMemberQuarterlyOfficeExpensesByCategory($member, $category)
+    {
+        $endpoint = "members/{$member}/office_expenses/category/{$category}.json";
+        return $this->makeCall($endpoint);
+    }
+
+    /**
+     * @documentation https://projects.propublica.org/api-docs/congress-api/members/#get-quarterly-office-expenses-for-a-specified-category
+     * @endpoint https://api.propublica.org/congress/v1/office_expenses/category/{category}/{year}/{quarter}.json
+     *
+     * @param $category
+     * @param $quarter
+     * @param $year
+     * @return array
+     * @throws Exception
+     */
+    public function getQuarterlyOfficeExpensesByCategory($category, $quarter, $year)
+    {
+        $endpoint = "office_expenses/category/{$category}/{$year}/{$quarter}.json";
         return $this->makeCall($endpoint);
     }
 
