@@ -6,11 +6,13 @@ use GuzzleHttp\Psr7\Response as GuzzleResponse;
 class Response
 {
     public $contents;
+    public $status;
     protected $response;
 
     public function __construct(GuzzleResponse $response)
     {
         $this->response = $response;
+        $this->status = $response->getStatusCode();
         $this->contents = collect(json_decode($response->getBody()->getContents()));
     }
 
@@ -32,6 +34,11 @@ class Response
      */
     public function results()
     {
-        return $this->contents->get('results');
+        return $this->contents->get('results')[0];
+    }
+
+    protected function validateResponse()
+    {
+
     }
 }
