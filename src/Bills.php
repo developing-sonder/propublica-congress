@@ -7,6 +7,7 @@
  */
 
 namespace DevelopingSonder\PropublicaCongress;
+use DevelopingSonder\PropublicaCongress\Http\Client;
 
 
 class Bills extends Client
@@ -22,7 +23,7 @@ class Bills extends Client
      * @return array
      * @throws \Exception
      */
-    public static function search($query, $sort = 'date', $dir = 'desc')
+    public function search($query, $sort = 'date', $dir = 'desc')
     {
         $endpoint = "bills/search.json?query={$query}&sort={$sort}&dir={$dir}";
         return static::makeCall($endpoint);
@@ -40,7 +41,7 @@ class Bills extends Client
      *
      * Options for Type: introduced, updated, active, passed, enacted, or vetoed
      */
-    public static function recent($congress, $chamber, $type)
+    public function recent($congress, $chamber, $type)
     {
         $endpoint = "{$congress}/{$chamber}/bills/{$type}.json";
         return static::makeCall($endpoint);
@@ -55,7 +56,7 @@ class Bills extends Client
      * @return array
      * @throws \Exception
      */
-    public static function recentByMember($memberId, $type)
+    public function recentByMember($memberId, $type)
     {
         $endpoint = "members/{$memberId}/bills/{$type}.json";
         return static::makeCall($endpoint);
@@ -69,7 +70,7 @@ class Bills extends Client
      * @return array
      * @throws \Exception
      */
-    public static function recentBySubject($subject)
+    public function recentBySubject($subject)
     {
         $endpoint = "bills/subjects/{$subject}.json";
         return static::makeCall($endpoint);
@@ -83,7 +84,7 @@ class Bills extends Client
      * @return array
      * @throws \Exception
      */
-    public static function upcoming($chamber)
+    public function upcoming($chamber)
     {
         $endpoint = "bills/upcoming/{$chamber}.json";
         return static::makeCall($endpoint);
@@ -98,7 +99,7 @@ class Bills extends Client
      * @return array
      * @throws \Exception
      */
-    public static function find($id, $congress)
+    public function find($id, $congress)
     {
         $endpoint = "{$congress}/bills/{$id}.json";
         return static::makecall($endpoint);
@@ -113,7 +114,7 @@ class Bills extends Client
      * @return array
      * @throws \Exception
      */
-    public static function amendments($id, $congress)
+    public function amendments($id, $congress)
     {
         $endpoint = "{$congress}/bills/{$id}/amendments.json";
         return static::makeCall($endpoint);
@@ -128,7 +129,7 @@ class Bills extends Client
      * @return array
      * @throws \Exception
      */
-    public static function subjects($id, $congress)
+    public function subjects($id, $congress)
     {
         $endpoint = "{$congress}/bills/{$id}/subjects.json";
         return static::makeCall($endpoint);
@@ -143,7 +144,7 @@ class Bills extends Client
      * @return array
      * @throws \Exception
      */
-    public static function relatedBills($id, $congress)
+    public function relatedBills($id, $congress)
     {
         $endpoint = "{$congress}/bills/{$id}/related.json";
         return static::makeCall($endpoint);
@@ -172,7 +173,7 @@ class Bills extends Client
      * @return array
      * @throws \Exception
      */
-    public static function cosponsors($id, $congress)
+    public function cosponsors($id, $congress)
     {
         $endpoint = "{$congress}/bills/{$id}/cosponsors.json";
         return static::makeCall($endpoint);

@@ -1,6 +1,8 @@
 <?php
 namespace DevelopingSonder\PropublicaCongress;
 
+use DevelopingSonder\PropublicaCongress\Http\Client;
+
 class Members extends Client
 {
    
@@ -19,7 +21,7 @@ class Members extends Client
      * @return array
      * @throws \Exception
      */
-    public static function compareMembersBillSponsorships($member1, $member2, $congress, $chamber)
+    public function compareMembersBillSponsorships($member1, $member2, $congress, $chamber)
     {
         $endpoint = "members/{$member1}/bills/{$member2}/{$congress}/{$chamber}.json";
         return static::makeCall($endpoint);
@@ -36,7 +38,7 @@ class Members extends Client
      * @return array
      * @throws \Exception
      */
-    public static function compareMembersVotePositions($member1, $member2, $congress, $chamber)
+    public function compareMembersVotePositions($member1, $member2, $congress, $chamber)
     {
         $endpoint = "members/{$member1}/votes/{$member2}/{$congress}/{$chamber}.json";
         return static::makeCall($endpoint);
@@ -53,7 +55,7 @@ class Members extends Client
      * @throws \Exception
      * @todo Write test
      */
-    public static function getLeavingMembers($congress, $chamber)
+    public function getLeavingMembers($congress, $chamber)
     {
         $endpoint = "{$congress}/{$chamber}/members/leaving.json";
         return static::makeCall($endpoint);
@@ -70,7 +72,7 @@ class Members extends Client
      * @throws \Exception
      * @todo Write Test
      */
-    public static function getMemberVotePositions($memberId)
+    public function getMemberVotePositions($memberId)
     {
         $endpoint ="members/{$memberId}/votes.json";
         return static::makeCall($endpoint);
@@ -87,7 +89,7 @@ class Members extends Client
      * @throws \Exception
      * @todo Write test
      */
-    public static function getMembers($congress, $chamber)
+    public function getMembers($congress, $chamber)
     {
         $endpoint = "{$congress}/{$chamber}.members.json";
         return static::makeCall($endpoint);
@@ -102,7 +104,7 @@ class Members extends Client
      * @throws \Exception
      * @todo Write test
      */
-    public static function getMembersByDistrict($district)
+    public function getMembersByDistrict($district)
     {
         $endpoint = "members/house/{$district}/current.json";
         return static::makeCall($endpoint);
@@ -118,7 +120,7 @@ class Members extends Client
      * @throws \Exception
      * @todo Write test
      */
-    public static function getMembersByState($state)
+    public function getMembersByState($state)
     {
         $endpoint = "members/senate/{$state}/current.json";
         return static::makeCall($endpoint);
@@ -135,7 +137,7 @@ class Members extends Client
      * @return mixed - Expected
      * * @todo Write test
      */
-    public static function getMember($memberId)
+    public function getMember($memberId)
     {
         $endpoint = "member/{$memberId}.json";
         return static::makeCall($endpoint);
@@ -148,7 +150,7 @@ class Members extends Client
      * @throws \Exception
      * @todo Write test
      */
-    public static function getNewMembers()
+    public function getNewMembers()
     {
         $endpoint = "members/new.json";
         return static::makeCall($endpoint);
@@ -164,7 +166,7 @@ class Members extends Client
      * @return array
      * @throws \Exception
      */
-    public static function getMemberQuarterlyOfficeExpenses($member, $quarter, $year)
+    public function getMemberQuarterlyOfficeExpenses($member, $quarter, $year)
     {
         $endpoint = "members/{$member}/office_expenses/{$year}/{$quarter}.json";
         return static::makeCall($endpoint);
@@ -179,7 +181,7 @@ class Members extends Client
      * @return array
      * @throws \Exception
      */
-    public static function getMemberQuarterlyOfficeExpensesByCategory($member, $category)
+    public function getMemberQuarterlyOfficeExpensesByCategory($member, $category)
     {
         $endpoint = "members/{$member}/office_expenses/category/{$category}.json";
         return static::makeCall($endpoint);
@@ -195,7 +197,7 @@ class Members extends Client
      * @return array
      * @throws \Exception
      */
-    public static function getQuarterlyOfficeExpensesByCategory($category, $quarter, $year)
+    public function getQuarterlyOfficeExpensesByCategory($category, $quarter, $year)
     {
         $endpoint = "office_expenses/category/{$category}/{$year}/{$quarter}.json";
         return static::makeCall($endpoint);

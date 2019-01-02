@@ -1,5 +1,5 @@
 <?php
-namespace DevelopingSonder\PropublicaCongress;
+namespace DevelopingSonder\PropublicaCongress\Http;
 
 use DevelopingSonder\PropublicaCongress\Http\Connection;
 use DevelopingSonder\PropublicaCongress\Http\Response;
