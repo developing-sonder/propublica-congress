@@ -6,6 +6,11 @@ use DevelopingSonder\PropublicaCongress\Http\Response;
 
 abstract class Client
 {
+    protected $offset = 0;
+    protected $chamber;
+    protected $congress;
+    public $lastResponse;
+
 
      /**
      * @param $endpoint
@@ -13,12 +18,13 @@ abstract class Client
      * @return array
      *
      */
-    protected static function makeCall($endpoint)
+    protected function makeCall($endpoint)
     {
         $connection = Connection::instance();
 
         try {
             $response = new Response($connection->get($endpoint));
+            $this->lastResponse = $response;
         }catch(\Exception $e)
         {
             //-- Logging??
@@ -26,5 +32,22 @@ abstract class Client
         }
 
         return $response->results();
+    }
+
+    public function nextPage()
+    {
+        $this->offset += 20;
+        return $this;
+    }
+
+    public function previousPage()
+    {
+        $this->offset -= 20;
+        return $this;
+    }
+
+    public function offset($offset) {
+        $this->offset = $offset;
+        return $this;
     }
 }

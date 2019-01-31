@@ -8,6 +8,8 @@
 
 namespace DevelopingSonder\PropublicaCongress;
 use DevelopingSonder\PropublicaCongress\Http\Client;
+use DevelopingSonder\PropublicaCongress\Resources\Bill;
+use Illuminate\Support\Collection;
 
 
 class Bills extends Client
@@ -20,13 +22,15 @@ class Bills extends Client
      * @param $query
      * @param string $sort
      * @param string $dir
-     * @return array
+     * @return Collection
      * @throws \Exception
      */
     public function search($query, $sort = 'date', $dir = 'desc')
     {
         $endpoint = "bills/search.json?query={$query}&sort={$sort}&dir={$dir}";
-        return static::makeCall($endpoint);
+        $response = $this->makeCall($endpoint);
+
+        return $this->makeBillsCollection($response);
     }
 
     /**
@@ -36,7 +40,7 @@ class Bills extends Client
      * @param $congress
      * @param $chamber
      * @param $type
-     * @return array
+     * @return Collection
      * @throws \Exception
      *
      * Options for Type: introduced, updated, active, passed, enacted, or vetoed
@@ -44,7 +48,9 @@ class Bills extends Client
     public function recent($congress, $chamber, $type)
     {
         $endpoint = "{$congress}/{$chamber}/bills/{$type}.json";
-        return static::makeCall($endpoint);
+        $response = $this->makeCall($endpoint);
+
+        return $this->makeBillsCollection($response);
     }
 
     /**
@@ -59,7 +65,9 @@ class Bills extends Client
     public function recentByMember($memberId, $type)
     {
         $endpoint = "members/{$memberId}/bills/{$type}.json";
-        return static::makeCall($endpoint);
+        $response = $this->makeCall($endpoint);
+
+        return $this->makeBillsCollection($response);
     }
 
     /**
@@ -73,7 +81,9 @@ class Bills extends Client
     public function recentBySubject($subject)
     {
         $endpoint = "bills/subjects/{$subject}.json";
-        return static::makeCall($endpoint);
+        $response = $this->makeCall($endpoint);
+
+        return $this->makeBillsCollection($response);
     }
 
     /**
@@ -87,7 +97,9 @@ class Bills extends Client
     public function upcoming($chamber)
     {
         $endpoint = "bills/upcoming/{$chamber}.json";
-        return static::makeCall($endpoint);
+        $response = $this->makeCall($endpoint);
+
+        return $this->makeBillsCollection($response);
     }
 
     /**
@@ -102,7 +114,9 @@ class Bills extends Client
     public function find($id, $congress)
     {
         $endpoint = "{$congress}/bills/{$id}.json";
-        return static::makecall($endpoint);
+        $response = $this->makeCall($endpoint);
+
+        return $this->makeBillsCollection($response);
     }
 
     /**
@@ -117,7 +131,9 @@ class Bills extends Client
     public function amendments($id, $congress)
     {
         $endpoint = "{$congress}/bills/{$id}/amendments.json";
-        return static::makeCall($endpoint);
+        $response = $this->makeCall($endpoint);
+
+        return $this->makeBillsCollection($response);
     }
 
     /**
@@ -132,7 +148,9 @@ class Bills extends Client
     public function subjects($id, $congress)
     {
         $endpoint = "{$congress}/bills/{$id}/subjects.json";
-        return static::makeCall($endpoint);
+        $response = $this->makeCall($endpoint);
+
+        return $this->makeBillsCollection($response);
     }
 
     /**
@@ -147,7 +165,9 @@ class Bills extends Client
     public function relatedBills($id, $congress)
     {
         $endpoint = "{$congress}/bills/{$id}/related.json";
-        return static::makeCall($endpoint);
+        $response = $this->makeCall($endpoint);
+
+        return $this->makeBillsCollection($response);
     }
 
     /**
@@ -161,7 +181,9 @@ class Bills extends Client
     public function searchBySubject($query)
     {
         $endpoint = "bills/subject/search.json?query={$query}";
-        return static::makeCall($endpoint);
+        $response = $this->makeCall($endpoint);
+
+        return $this->makeBillsCollection($response);
     }
 
     /**
@@ -170,12 +192,34 @@ class Bills extends Client
      *
      * @param $id
      * @param $congress
-     * @return array
+     * @return Collection
      * @throws \Exception
      */
     public function cosponsors($id, $congress)
     {
         $endpoint = "{$congress}/bills/{$id}/cosponsors.json";
-        return static::makeCall($endpoint);
+        $response = $this->makeCall($endpoint);
+
+        return $this->makeBillsCollection($response);
+    }
+
+    /**
+     * @param $response
+     * @return Collection
+     */
+    protected function makeBillsCollection($response)
+    {
+        $bills = new Collection();
+        
+        foreach ($response->bills as $billsArray)
+        {
+            $bill = new Bill($billsArray);
+            $bill->chamber = $this->lastResponse->chamber;
+            $bill->congress = $this->lastResponse->congress;
+
+            $bills->push($bill);
+        }
+
+        return $bills;
     }
 }

@@ -19,7 +19,7 @@ class Votes extends Client
     public function recent($chamber)
     {
         $endpoint = "{$chamber}/votes/recent.json";
-        return static::makeCall($endpoint);
+        return $this->makeCall($endpoint);
     }
 
     /**
@@ -36,7 +36,7 @@ class Votes extends Client
     public function rollCall($congress, $chamber, $sessionNumber, $rollCallNumber)
     {
         $endpoint = "{$congress}/{$chamber}/sessions/{$sessionNumber}/votes/{$rollCallNumber}.json";
-        return static::makeCall($endpoint);
+        return $this->makeCall($endpoint);
     }
 
     /**
@@ -52,7 +52,7 @@ class Votes extends Client
     public function type($congress, $chamber, $voteType)
     {
         $endpoint = "{$congress}/{$chamber}/votes/{$voteType}.json";
-        return static::makeCall($endpoint);
+        return $this->makeCall($endpoint);
     }
 
     /**
@@ -71,7 +71,7 @@ class Votes extends Client
         $month = Carbon::parse($month)->format('m');
 
         $endpoint = "{$chamber}/votes/{$year}/{$month}.json";
-        return static::makeCall($endpoint);
+        return $this->makeCall($endpoint);
     }
 
     /**
@@ -90,6 +90,6 @@ class Votes extends Client
         $endDate = Carbon::parse($endDate)->format('Y-m-d');
 
         $endpoint = "{$chamber}/votes/{$startDate}/{$endDate}.json";
-        return static::makeCall($endpoint);
+        return $this->makeCall($endpoint);
     }
 }

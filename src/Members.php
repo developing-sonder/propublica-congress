@@ -2,6 +2,8 @@
 namespace DevelopingSonder\PropublicaCongress;
 
 use DevelopingSonder\PropublicaCongress\Http\Client;
+use DevelopingSonder\PropublicaCongress\Resources\Member;
+use Illuminate\Support\Collection;
 
 class Members extends Client
 {
@@ -24,7 +26,7 @@ class Members extends Client
     public function compareMembersBillSponsorships($member1, $member2, $congress, $chamber)
     {
         $endpoint = "members/{$member1}/bills/{$member2}/{$congress}/{$chamber}.json";
-        return static::makeCall($endpoint);
+        return $this->makeCall($endpoint);
     }
 
     /**
@@ -38,10 +40,10 @@ class Members extends Client
      * @return array
      * @throws \Exception
      */
-    public function compareMembersVotePositions($member1, $member2, $congress, $chamber)
+    public function membersVotePositions($member1, $member2, $congress, $chamber)
     {
         $endpoint = "members/{$member1}/votes/{$member2}/{$congress}/{$chamber}.json";
-        return static::makeCall($endpoint);
+        return $this->makeCall($endpoint);
     }
 
     /**
@@ -55,10 +57,12 @@ class Members extends Client
      * @throws \Exception
      * @todo Write test
      */
-    public function getLeavingMembers($congress, $chamber)
+    public function leavingMembers($congress, $chamber)
     {
         $endpoint = "{$congress}/{$chamber}/members/leaving.json";
-        return static::makeCall($endpoint);
+        $response = $this->makeCall($endpoint);
+
+        return $this->makeMembersCollection($response);
     }
 
     /**
@@ -68,14 +72,16 @@ class Members extends Client
      * @description Get all the vote positions of a member.
      *              Data set includes specific information about each Bill and if it passed.
      * @param $memberId
-     * @return array
+     * @return Member
      * @throws \Exception
      * @todo Write Test
      */
-    public function getMemberVotePositions($memberId)
+    public function memberVotePositions($memberId)
     {
         $endpoint ="members/{$memberId}/votes.json";
-        return static::makeCall($endpoint);
+        $response = $this->makeCall($endpoint);
+
+        return new Member($response);
     }
 
     /**
@@ -85,14 +91,16 @@ class Members extends Client
      * @description Get the members of a specific congress in a specific chamber.
      * @param $congress
      * @param $chamber - Accepted values are "senate" and "house"
-     * @return mixed
+     * @return Collection
      * @throws \Exception
      * @todo Write test
      */
-    public function getMembers($congress, $chamber)
+    public function members($congress, $chamber)
     {
-        $endpoint = "{$congress}/{$chamber}.members.json";
-        return static::makeCall($endpoint);
+        $endpoint = "{$congress}/{$chamber}/members.json";
+        $response = $this->makeCall($endpoint);
+
+        return $this->makeMembersCollection($response);
     }
 
     /**
@@ -104,10 +112,10 @@ class Members extends Client
      * @throws \Exception
      * @todo Write test
      */
-    public function getMembersByDistrict($district)
+    public function membersByDistrict($district)
     {
         $endpoint = "members/house/{$district}/current.json";
-        return static::makeCall($endpoint);
+        return $this->makeCall($endpoint);
     }
 
 
@@ -120,10 +128,10 @@ class Members extends Client
      * @throws \Exception
      * @todo Write test
      */
-    public function getMembersByState($state)
+    public function membersByState($state)
     {
         $endpoint = "members/senate/{$state}/current.json";
-        return static::makeCall($endpoint);
+        return $this->makeCall($endpoint);
     }
 
 
@@ -137,10 +145,12 @@ class Members extends Client
      * @return mixed - Expected
      * * @todo Write test
      */
-    public function getMember($memberId)
+    public function member($memberId)
     {
-        $endpoint = "member/{$memberId}.json";
-        return static::makeCall($endpoint);
+        $endpoint = "members/{$memberId}.json";
+        $response = $this->makeCall($endpoint);
+
+        return new Member($response);
     }
 
     /**
@@ -150,10 +160,12 @@ class Members extends Client
      * @throws \Exception
      * @todo Write test
      */
-    public function getNewMembers()
+    public function newMembers()
     {
         $endpoint = "members/new.json";
-        return static::makeCall($endpoint);
+        $response = $this->makeCall($endpoint);
+
+        return $this->makeMembersCollection($response);
     }
 
     /**
@@ -166,10 +178,10 @@ class Members extends Client
      * @return array
      * @throws \Exception
      */
-    public function getMemberQuarterlyOfficeExpenses($member, $quarter, $year)
+    public function memberQuarterlyOfficeExpenses($member, $quarter, $year)
     {
         $endpoint = "members/{$member}/office_expenses/{$year}/{$quarter}.json";
-        return static::makeCall($endpoint);
+        return $this->makeCall($endpoint);
     }
 
     /**
@@ -181,10 +193,10 @@ class Members extends Client
      * @return array
      * @throws \Exception
      */
-    public function getMemberQuarterlyOfficeExpensesByCategory($member, $category)
+    public function memberQuarterlyOfficeExpensesByCategory($member, $category)
     {
         $endpoint = "members/{$member}/office_expenses/category/{$category}.json";
-        return static::makeCall($endpoint);
+        return $this->makeCall($endpoint);
     }
 
     /**
@@ -197,9 +209,28 @@ class Members extends Client
      * @return array
      * @throws \Exception
      */
-    public function getQuarterlyOfficeExpensesByCategory($category, $quarter, $year)
+    public function quarterlyOfficeExpensesByCategory($category, $quarter, $year)
     {
         $endpoint = "office_expenses/category/{$category}/{$year}/{$quarter}.json";
-        return static::makeCall($endpoint);
+        return $this->makeCall($endpoint);
+    }
+
+    /**
+     * @param $response
+     * @return Collection
+     */
+    protected function makeMembersCollection($response)
+    {
+        $members = new Collection();
+        foreach ($response->members as $memberArray)
+        {
+            $member = new Member($memberArray);
+            $member->chamber = $this->lastResponse->chamber;
+            $member->congress = $this->lastResponse->congress;
+
+            $members->push($member);
+        }
+
+        return $members;
     }
 }
