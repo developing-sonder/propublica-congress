@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Welcome to php-propublica-congress-sdk’s documentation! &mdash; php-propublica-congress-sdk  documentation</title>
+  <title>PHP SDK for Propublica’s Congress API &mdash; php-propublica-congress-sdk  documentation</title>
   
 
   
@@ -78,8 +78,21 @@
             
               <!-- Local TOC -->
               <div class="local-toc"><ul>
-<li><a class="reference internal" href="#">Welcome to php-propublica-congress-sdk’s documentation!</a></li>
-<li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
+<li><a class="reference internal" href="#">PHP SDK for Propublica’s Congress API</a></li>
+<li><a class="reference internal" href="#installation">Installation</a><ul>
+<li><a class="reference internal" href="#requirements">Requirements</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#http-structure">HTTP Structure</a></li>
+<li><a class="reference internal" href="#the-models">The Models</a><ul>
+<li><a class="reference internal" href="#votes">Votes</a><ul>
+<li><a class="reference internal" href="#recent-votes">Recent Votes</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#members">Members</a></li>
+<li><a class="reference internal" href="#bills">Bills</a></li>
+</ul>
+</li>
 </ul>
 </div>
             
@@ -125,7 +138,7 @@
     
       <li><a href="#">Docs</a> &raquo;</li>
         
-      <li>Welcome to php-propublica-congress-sdk’s documentation!</li>
+      <li>PHP SDK for Propublica’s Congress API</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -144,18 +157,74 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="welcome-to-php-propublica-congress-sdk-s-documentation">
-<h1>Welcome to php-propublica-congress-sdk’s documentation!<a class="headerlink" href="#welcome-to-php-propublica-congress-sdk-s-documentation" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="php-sdk-for-propublica-s-congress-api">
+<h1>PHP SDK for Propublica’s Congress API<a class="headerlink" href="#php-sdk-for-propublica-s-congress-api" title="Permalink to this headline">¶</a></h1>
 <div class="toctree-wrapper compound">
 </div>
+<p>Something Here!</p>
 </div>
-<div class="section" id="indices-and-tables">
-<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="installation">
+<h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">composer install developingsonder/propublica-congress</span>
+</pre></div>
+</div>
+<p>Next you’ll need to get an API Key from <a class="reference external" href="https://projects.propublica.org/api-docs/congress-api/#get-an-api-key">Propublica.org</a>.
+Once you’ve received you API KEY place it in the .env file in the root of your project.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">PROPUBLICA_API_KEY=</span>
+<span class="go">PROPUBLICA_API_VERSION=v1</span>
+</pre></div>
+</div>
+<p>At the time of this documentation, the Propublica Congress API’s version is v1 and is the default used by <strong>DevelopingSonder\PropublicaCongress\Http\Connection::class()</strong>.
+If you’re using v1, you can remove that line, though we recommend you leave it for ease of upgrade later. The PROPUBLICA_API_KEY is required here.</p>
+<div class="section" id="requirements">
+<h2>Requirements<a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></li>
-<li><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></li>
-<li><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></li>
+<li>php &gt;= 7.2</li>
+<li>illuminate/contracts 5.1.*|5.2.*|5.3.*|5.4.*|5.5.*|5.6.*</li>
+<li>illuminate/support 5.1.*|5.2.*|5.3.*|5.4.*|5.5.*|5.6.*,</li>
+<li>guzzlehttp/guzzle ^6.3</li>
 </ul>
+</div>
+</div>
+<div class="section" id="http-structure">
+<h1>HTTP Structure<a class="headerlink" href="#http-structure" title="Permalink to this headline">¶</a></h1>
+</div>
+<div class="section" id="the-models">
+<h1>The Models<a class="headerlink" href="#the-models" title="Permalink to this headline">¶</a></h1>
+<p>The models represent each endpoint in the Propublica Congress API. Below you’ll find references for all that are completed in our sdk.</p>
+<p>Each request by the models returns result sets of 20. An offset can be supplied for pagination. The offset number must be a multiplier of 20.</p>
+<div class="section" id="votes">
+<h2>Votes<a class="headerlink" href="#votes" title="Permalink to this headline">¶</a></h2>
+<p>The Votes Model gives you access to Congresses voting records.</p>
+<div class="section" id="recent-votes">
+<h3>Recent Votes<a class="headerlink" href="#recent-votes" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-php notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">use</span> <span class="nx">DevelopingSonder\Votes</span><span class="p">;</span>
+
+<span class="nv">$voteManager</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Votes</span><span class="p">;</span>
+
+<span class="c1">// Returns most recent twenty recent votes</span>
+<span class="nv">$recentVotes</span> <span class="o">=</span> <span class="nv">$voteManager</span><span class="o">-&gt;</span><span class="na">recent</span><span class="p">(</span><span class="s1">&#39;senate&#39;</span><span class="p">);</span>
+
+<span class="c1">// Return the next 20 recent votes</span>
+<span class="nv">$recentVotes</span> <span class="o">=</span> <span class="nv">$voteManager</span><span class="o">-&gt;</span><span class="na">nextPage</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">recent</span><span class="p">(</span><span class="s1">&#39;senate&#39;</span><span class="p">);</span>
+</pre></div>
+</td></tr></table></div>
+</div>
+</div>
+<div class="section" id="members">
+<h2>Members<a class="headerlink" href="#members" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="bills">
+<h2>Bills<a class="headerlink" href="#bills" title="Permalink to this headline">¶</a></h2>
+</div>
 </div>
 
 
