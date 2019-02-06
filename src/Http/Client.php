@@ -10,21 +10,27 @@ abstract class Client
     protected $chamber;
     protected $congress;
     public $lastResponse;
+    protected $lastEndpoint;
+    protected $lastOptions;
 
 
      /**
      * @param $endpoint
+     * @param array @options
      * @throws \Exception
      * @return array
      *
      */
-    protected function makeCall($endpoint)
+    protected function makeCall($endpoint, $options = [])
     {
         $connection = Connection::instance();
+        $options = array_merge($options, ['offset' => $this->offset]);
 
         try {
-            $response = new Response($connection->get($endpoint));
+            $response = new Response($connection->get($endpoint, $options));
             $this->lastResponse = $response;
+            $this->lastEndpoint = $endpoint;
+            $this->lastOptions = $options;
         }catch(\Exception $e)
         {
             //-- Logging??
@@ -37,7 +43,7 @@ abstract class Client
     public function nextPage()
     {
         $this->offset += 20;
-        return $this;
+        return $this->makeCall($this->lastEndpoint, $this->lastOptions);
     }
 
     public function previousPage()

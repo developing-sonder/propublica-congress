@@ -38,9 +38,9 @@ class Connection
         ]);
     }
 
-    public function get($endpoint)
+    public function get($endpoint, $options = null)
     {
-        return $this->guzzleClient->request("GET", $endpoint);
+        return $this->guzzleClient->request("GET", $endpoint, $options);
     }
 
 }

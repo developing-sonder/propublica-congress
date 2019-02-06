@@ -153,12 +153,9 @@ class Members extends Client
         return new Member($response);
     }
 
-    /**
-     * @documentation https://projects.propublica.org/api-docs/congress-api/members/#get-new-members
-     * @endpoint https://api.propublica.org/congress/v1/members/new.json     *
-     * @return array
+    /***
+     * @return Collection
      * @throws \Exception
-     * @todo Write test
      */
     public function newMembers()
     {

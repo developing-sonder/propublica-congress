@@ -64,7 +64,7 @@ Recent Votes
    $recentVotes = $voteManager->recent('senate');
 
    // Return the next 20 recent votes
-   $recentVotes = $voteManager->nextPage()->recent('senate');
+   $recentVotes = $voteManager->nextPage();
 
 Members
 -------
