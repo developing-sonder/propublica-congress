@@ -21,7 +21,7 @@ class Member extends BaseResource
      */
     public function fullName()
     {
-        return $this->attributes->get('first_name') . " " . $this->attributes->get('last_name');
+        return $this->attributes->get('first_name') . " " . $this->attributes->get('middle_name') . " " . $this->attributes->get('last_name');
     }
 
     /**

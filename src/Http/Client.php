@@ -24,7 +24,11 @@ abstract class Client
     protected function makeCall($endpoint, $options = [])
     {
         $connection = Connection::instance();
-        $options = array_merge($options, ['offset' => $this->offset]);
+        $options = array_merge($options, ['query' =>
+            [
+                'offset' => $this->offset
+            ]
+        ]);
 
         try {
             $response = new Response($connection->get($endpoint, $options));
@@ -43,7 +47,6 @@ abstract class Client
     public function nextPage()
     {
         $this->offset += 20;
-        return $this->makeCall($this->lastEndpoint, $this->lastOptions);
     }
 
     public function previousPage()
@@ -52,8 +55,14 @@ abstract class Client
         return $this;
     }
 
-    public function offset($offset) {
+    public function offset($offset)
+    {
         $this->offset = $offset;
         return $this;
+    }
+
+    public function page($pageNumber)
+    {
+        $this->offset = (20 * $pageNumber) - 20;
     }
 }

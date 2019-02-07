@@ -210,6 +210,10 @@ class Bills extends Client
     protected function makeBillsCollection($response)
     {
         $bills = new Collection();
+
+        if (!count($response->bills)) {
+           return $bills;
+        }
         
         foreach ($response->bills as $billsArray)
         {
@@ -221,5 +225,17 @@ class Bills extends Client
         }
 
         return $bills;
+    }
+
+    /**
+     * @return Collection|void
+     * @throws \Exception
+     */
+    public function nextPage()
+    {
+        parent::nextPage();
+
+        $response = $this->makeCall($this->lastEndpoint, $this->lastOptions);
+        return $this->makeBillsCollection($response);
     }
 }
