@@ -4,7 +4,7 @@ namespace DevelopingSonder\PropublicaCongress\Http;
 use DevelopingSonder\PropublicaCongress\Http\Connection;
 use DevelopingSonder\PropublicaCongress\Http\Response;
 
-abstract class Client
+abstract class BaseClient
 {
     protected $offset = 0;
     protected $chamber;
