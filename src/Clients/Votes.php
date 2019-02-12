@@ -1,10 +1,10 @@
 <?php
-namespace DevelopingSonder\PropublicaCongress;
+namespace DevelopingSonder\PropublicaCongress\Clients;
 
 use Carbon\Carbon;
-use DevelopingSonder\PropublicaCongress\Http\Client;
+use DevelopingSonder\PropublicaCongress\Http\BaseClient;
 
-class Votes extends Client
+class Votes extends BaseClient
 {
     /**
      * @documentation https://projects.propublica.org/api-docs/congress-api/votes/#get-recent-votes
@@ -49,7 +49,7 @@ class Votes extends Client
      * @return array
      * @throws \Exception
      */
-    public function type($congress, $chamber, $voteType)
+    public function byType($congress, $chamber, $voteType)
     {
         $endpoint = "{$congress}/{$chamber}/votes/{$voteType}.json";
         return $this->makeCall($endpoint);
@@ -92,4 +92,23 @@ class Votes extends Client
         $endpoint = "{$chamber}/votes/{$startDate}/{$endDate}.json";
         return $this->makeCall($endpoint);
     }
+
+    /**
+     * @documentaion https://projects.propublica.org/api-docs/congress-api/votes/#get-senate-nomination-votes
+     * @endpoint https://api.propublica.org/congress/v1/{congress}/nominations.json
+     *
+     * @param $congress
+     * @return array
+     * @throws \Exception
+     */
+    public function senateNominations($congress)
+    {
+        $endpoint = "{$congress}/nominations.json";
+        return $this->makeCall($endpoint);
+    }
+
+
+
+
+
 }

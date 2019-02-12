@@ -6,13 +6,13 @@
  * Time: 8:23 AM
  */
 
-namespace DevelopingSonder\PropublicaCongress;
-use DevelopingSonder\PropublicaCongress\Http\Client;
+namespace DevelopingSonder\PropublicaCongress\Clients;
+use DevelopingSonder\PropublicaCongress\Http\BaseClient;
 use DevelopingSonder\PropublicaCongress\Resources\Bill;
 use Illuminate\Support\Collection;
 
 
-class Bills extends Client
+class Bills extends BaseClient
 {
 
     /**

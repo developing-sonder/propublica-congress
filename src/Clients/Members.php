@@ -1,11 +1,11 @@
 <?php
-namespace DevelopingSonder\PropublicaCongress;
+namespace DevelopingSonder\PropublicaCongress\Clients;
 
-use DevelopingSonder\PropublicaCongress\Http\Client;
+use DevelopingSonder\PropublicaCongress\Http\BaseClient;
 use DevelopingSonder\PropublicaCongress\Resources\Member;
 use Illuminate\Support\Collection;
 
-class Members extends Client
+class Members extends BaseClient
 {
    
     /**********************************************************
@@ -145,7 +145,7 @@ class Members extends Client
      * @return mixed - Expected
      * * @todo Write test
      */
-    public function member($memberId)
+    public function find($memberId)
     {
         $endpoint = "members/{$memberId}.json";
         $response = $this->makeCall($endpoint);
