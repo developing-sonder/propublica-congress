@@ -33,7 +33,7 @@ class Connection
         $this->guzzleClient = new GuzzleClient([
             "base_uri" => "https://api.propublica.org/congress/{$api_version}/",
             "headers" => [
-                "X-API-Key" => env("PROPUBLICA_API_KEY")
+                "X-API-Key" => getenv("PROPUBLICA_API_KEY")
             ]
         ]);
     }

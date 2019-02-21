@@ -13,8 +13,7 @@ abstract class BaseClient
     protected $lastEndpoint;
     protected $lastOptions;
 
-
-     /**
+    /**
      * @param $endpoint
      * @param array @options
      * @throws \Exception
@@ -41,18 +40,23 @@ abstract class BaseClient
             throw $e;
         }
 
-        return $response->results();
+        return ($this->onlyResults()) ? $response->results() : $response;
     }
 
-    public function nextPage()
+    public function nextPage($onlyResults = false)
     {
         $this->offset += 20;
+        $response = $this->makeCall($this->lastEndpoint, $this->lastOptions);
+
+        return ($onlyResults) ? $response->results() : $response;
     }
 
-    public function previousPage()
+    public function previousPage($onlyResults = false)
     {
         $this->offset -= 20;
-        return $this;
+        $response = $this->makeCall($this->lastEndpoint, $this->lastOptions);
+
+        return ($onlyResults) ? $response->results() : $response;
     }
 
     public function offset($offset)
@@ -64,5 +68,10 @@ abstract class BaseClient
     public function page($pageNumber)
     {
         $this->offset = (20 * $pageNumber) - 20;
+    }
+
+    public function onlyResults()
+    {
+        $this->onlyResults = true;
     }
 }

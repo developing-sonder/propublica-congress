@@ -2,7 +2,7 @@
 namespace DevelopingSonder\PropublicaCongress\Clients;
 
 use Carbon\Carbon;
-use DevelopingSonder\PropublicaCongress\Http\BaseClient;
+use DevelopingSonder\PropublicaCongress\Helpers\VotesCollection;
 
 class Votes extends BaseClient
 {
@@ -19,7 +19,9 @@ class Votes extends BaseClient
     public function recent($chamber)
     {
         $endpoint = "{$chamber}/votes/recent.json";
-        return $this->makeCall($endpoint);
+        $response = $this->makeCall($endpoint);
+
+        return VotesCollection::create($response->votes);
     }
 
     /**
@@ -106,9 +108,6 @@ class Votes extends BaseClient
         $endpoint = "{$congress}/nominations.json";
         return $this->makeCall($endpoint);
     }
-
-
-
 
 
 }

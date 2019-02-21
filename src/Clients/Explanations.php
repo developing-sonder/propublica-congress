@@ -7,10 +7,12 @@
  */
 namespace DevelopingSonder\PropublicaCongress\Clients;
 
-use DevelopingSonder\PropublicaCongress\Http\BaseClient;
-
 class Explanations extends BaseClient
 {
+    /**
+    * Accepted categories as defined by Propublica:
+    * https://projects.propublica.org/api-docs/congress-api/votes/#get-recent-personal-explanation-votes-by-a-specific-member-by-category
+    **/
     protected $categories;
 
     public function construct()
@@ -94,7 +96,7 @@ class Explanations extends BaseClient
     }
 
     /**
-     * @documenation https://projects.propublica.org/api-docs/congress-api/votes/#get-recent-personal-explanation-votes-by-a-specific-member
+     * @documentation https://projects.propublica.org/api-docs/congress-api/votes/#get-recent-personal-explanation-votes-by-a-specific-member
      * @endpoint https://api.propublica.org/congress/v1/members/{member_id}/explanations/{congress}/votes.json
      * @param $memberId
      * @param $congress
@@ -109,7 +111,7 @@ class Explanations extends BaseClient
 
     /**
      * https://projects.propublica.org/api-docs/congress-api/votes/#get-recent-personal-explanation-votes-by-a-specific-member-by-category
-     * @documentation
+     * @documentation https://projects.propublica.org/api-docs/congress-api/votes/#get-recent-personal-explanation-votes-by-a-specific-member-by-category
      * @endpoint https://api.propublica.org/congress/v1/members/{member_id}/explanations/{congress}/votes/{category}.json
      *
      * @param $memberId

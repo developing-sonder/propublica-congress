@@ -9,7 +9,7 @@
 namespace DevelopingSonder\PropublicaCongress\Resources;
 
 
-class VoteResource extends BaseResource
+class Vote extends BaseResource
 {
     public function passed()
     {

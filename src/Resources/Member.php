@@ -3,7 +3,7 @@ namespace DevelopingSonder\PropublicaCongress\Resources;
 
 use DevelopingSonder\PropublicaCongress\Helpers\VotesCollection;
 use DevelopingSonder\PropublicaCongress\Members;
-use DevelopingSonder\PropublicaCongress\Resources\VoteResource;
+use DevelopingSonder\PropublicaCongress\Resources\Vote;
 
 class Member extends BaseResource
 {
@@ -51,7 +51,7 @@ class Member extends BaseResource
         $response = $client->memberVotePositions($this->id);
 
         $votes = array_map(function($vote) {
-            return new VoteResource($vote);
+            return new Vote($vote);
         }, $response);
 
         $this->attributes->votes = $votes;
@@ -79,7 +79,7 @@ class Member extends BaseResource
         //dd($this->attributes);
         if($this->attributes->has('votes') && is_array($this->votes)) {
             $votes = array_map(function($vote) {
-                return new VoteResource($vote);
+                return new Vote($vote);
             }, $this->votes);
 
             $this->votes = new VotesCollection($votes);

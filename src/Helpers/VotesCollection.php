@@ -8,11 +8,14 @@
 
 namespace DevelopingSonder\PropublicaCongress\Helpers;
 
+use DevelopingSonder\PropublicaCongress\Resources\Vote;
+use DevelopingSonder\PropublicaCongress\Traits\CreatesResources;
 
-use Illuminate\Support\Collection;
-
-class VotesCollection extends Collection
+class VotesCollection extends ResourceCollection
 {
+    use CreatesResources;
+    public $resource = Vote::class;
+
     public function havePassed()
     {
         $passed = $this->filter(function($vote){

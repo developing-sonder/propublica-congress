@@ -43,5 +43,4 @@ abstract class BaseResource
             throw new \BadMethodCallException($e);
         }
     }
-
 }

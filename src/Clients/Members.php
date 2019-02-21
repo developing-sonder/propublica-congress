@@ -1,7 +1,6 @@
 <?php
 namespace DevelopingSonder\PropublicaCongress\Clients;
 
-use DevelopingSonder\PropublicaCongress\Http\BaseClient;
 use DevelopingSonder\PropublicaCongress\Resources\Member;
 use Illuminate\Support\Collection;
 
@@ -60,9 +59,7 @@ class Members extends BaseClient
     public function leavingMembers($congress, $chamber)
     {
         $endpoint = "{$congress}/{$chamber}/members/leaving.json";
-        $response = $this->makeCall($endpoint);
-
-        return $this->makeMembersCollection($response);
+        return $this->makeCall($endpoint);;
     }
 
     /**
@@ -79,9 +76,7 @@ class Members extends BaseClient
     public function memberVotePositions($memberId)
     {
         $endpoint ="members/{$memberId}/votes.json";
-        $response = $this->makeCall($endpoint);
-
-        return new Member($response);
+        return $this->makeCall($endpoint);
     }
 
     /**
@@ -98,9 +93,7 @@ class Members extends BaseClient
     public function members($congress, $chamber)
     {
         $endpoint = "{$congress}/{$chamber}/members.json";
-        $response = $this->makeCall($endpoint);
-
-        return $this->makeMembersCollection($response);
+        return $this->makeCall($endpoint);
     }
 
     /**
@@ -145,12 +138,10 @@ class Members extends BaseClient
      * @return mixed - Expected
      * * @todo Write test
      */
-    public function find($memberId)
+    public static function find($memberId)
     {
         $endpoint = "members/{$memberId}.json";
-        $response = $this->makeCall($endpoint);
-
-        return new Member($response);
+        return static::makeCall($endpoint);
     }
 
     /***
@@ -160,9 +151,7 @@ class Members extends BaseClient
     public function newMembers()
     {
         $endpoint = "members/new.json";
-        $response = $this->makeCall($endpoint);
-
-        return $this->makeMembersCollection($response);
+        return $this->makeCall($endpoint);
     }
 
     /**
@@ -210,24 +199,5 @@ class Members extends BaseClient
     {
         $endpoint = "office_expenses/category/{$category}/{$year}/{$quarter}.json";
         return $this->makeCall($endpoint);
-    }
-
-    /**
-     * @param $response
-     * @return Collection
-     */
-    protected function makeMembersCollection($response)
-    {
-        $members = new Collection();
-        foreach ($response->members as $memberArray)
-        {
-            $member = new Member($memberArray);
-            $member->chamber = $this->lastResponse->chamber;
-            $member->congress = $this->lastResponse->congress;
-
-            $members->push($member);
-        }
-
-        return $members;
     }
 }
