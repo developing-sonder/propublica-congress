@@ -10,9 +10,10 @@ namespace DevelopingSonder\PropublicaCongress\Helpers;
 
 
 use DevelopingSonder\PropublicaCongress\Traits\CreatesResources;
+use DevelopingSonder\PropublicaCongress\Resources\Bill;
 
 class BillsCollection extends ResourceCollection
 {
     use CreatesResources;
-    public $resource = Bill::class;
+    public static $resource = Bill::class;
 }

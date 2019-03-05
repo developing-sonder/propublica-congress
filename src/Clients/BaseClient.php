@@ -1,5 +1,5 @@
 <?php
-namespace DevelopingSonder\PropublicaCongress\Http;
+namespace DevelopingSonder\PropublicaCongress\Clients;
 
 use DevelopingSonder\PropublicaCongress\Http\Connection;
 use DevelopingSonder\PropublicaCongress\Http\Response;
@@ -40,7 +40,7 @@ abstract class BaseClient
             throw $e;
         }
 
-        return ($this->onlyResults()) ? $response->results() : $response;
+        return ($this->onlyResults()) ? $response->results : $response;
     }
 
     public function nextPage($onlyResults = false)
@@ -48,7 +48,7 @@ abstract class BaseClient
         $this->offset += 20;
         $response = $this->makeCall($this->lastEndpoint, $this->lastOptions);
 
-        return ($onlyResults) ? $response->results() : $response;
+        return ($onlyResults) ? $response->results : $response;
     }
 
     public function previousPage($onlyResults = false)
@@ -56,7 +56,7 @@ abstract class BaseClient
         $this->offset -= 20;
         $response = $this->makeCall($this->lastEndpoint, $this->lastOptions);
 
-        return ($onlyResults) ? $response->results() : $response;
+        return ($onlyResults) ? $response->results : $response;
     }
 
     public function offset($offset)

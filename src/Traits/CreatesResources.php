@@ -13,7 +13,7 @@ trait CreatesResources
     {
         $collection = new static($items);
         return $collection->transform(function($item) use ($additional){
-            return array_merge($item, $additional);
+            return array_merge((array) $item, $additional);
         })->mapInto(static::$resource);
     }
 }

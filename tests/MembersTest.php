@@ -10,7 +10,7 @@ namespace DevelopingSonder\PropublicaCongress\tests;
 use DevelopingSonder\PropublicaCongress\Helpers\VotesCollection;
 use DevelopingSonder\PropublicaCongress\Members;
 use DevelopingSonder\PropublicaCongress\Resources\Member;
-use DevelopingSonder\PropublicaCongress\Resources\VoteResource;
+use DevelopingSonder\PropublicaCongress\Resources\Vote;
 use PHPUnit\Framework\TestCase;
 use DevelopingSonder\PropublicaCongress\Client;
 use Illuminate\Support\Collection;
@@ -83,6 +83,6 @@ class MembersTest extends TestCase
 
         $this->assertInstanceOf(Member::class, $member);
         $this->assertInstanceOf(VotesCollection::class, $member->votes);
-        $this->assertInstanceOf(VoteResource::class, $member->votes->first());
+        $this->assertInstanceOf(Vote::class, $member->votes->first());
     }
 }

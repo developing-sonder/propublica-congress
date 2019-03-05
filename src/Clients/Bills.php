@@ -95,10 +95,10 @@ class Bills extends BaseClient
      * @return Response
      * @throws \Exception
      */
-    public static function find($id, $congress)
+    public function find($id, $congress)
     {
         $endpoint = "{$congress}/bills/{$id}.json";
-        return static::makeCall($endpoint);
+        return $this->makeCall($endpoint);
     }
 
     /**
@@ -107,7 +107,7 @@ class Bills extends BaseClient
      *
      * @param $id
      * @param $congress
-     * @return Response
+     * @return mixed
      * @throws \Exception
      */
     public function amendments($id, $congress)
@@ -154,9 +154,9 @@ class Bills extends BaseClient
      * @return Response
      * @throws \Exception
      */
-    public function searchBySubject($query)
+    public function specificBillSubject($query)
     {
-        $endpoint = "bills/subject/search.json?query={$query}";
+        $endpoint = "bills/subjects/search.json?query={$query}";
         return $this->makeCall($endpoint);
     }
 

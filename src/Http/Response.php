@@ -12,8 +12,8 @@ class Response
     public function __construct(GuzzleResponse $response)
     {
         $this->response = $response;
-        $this->status = $response->getStatusCode();
         $this->contents = collect(json_decode($response->getBody()->getContents()));
+        $this->status = $this->contents->get('status');
     }
 
     public function __get($name)
@@ -26,19 +26,38 @@ class Response
         $this->contents->put($name, $value);
     }
 
-    /**
-     * @description The results key holds the expected data from the client GET.
-     *              While the json response holds other data pertaining to the
-     *              method call, the results key hold our expected data.
-     * @return array
-     */
-    public function results()
-    {
-        return $this->contents->get('results')[0];
-    }
 
     protected function validateResponse()
     {
 
+    }
+
+    public function item()
+    {
+        return $this->results[0];
+    }
+
+    public function items()
+    {
+        if(is_array($this->results)) {
+
+            if(array_key_exists('bills', $this->results[0])) {
+                return $this->results[0]->bills;
+            }
+
+            if(array_key_exists('members', $this->results[0])) {
+                return $this->results[0]->members;
+            }
+
+            if(array_key_exists('votes', $this->results[0])) {
+                return $this->results[0]->votes;
+            }
+
+            if(array_key_exists('amendments', $this->results[0])) {
+                return $this->results[0]->amendments;
+            }
+        }
+
+        return $this->results;
     }
 }
