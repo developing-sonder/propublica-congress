@@ -97,7 +97,7 @@ the offset before immediately rerunning the last request.
       $votes = $voteClient->nextPage(true);
 
       // Convert response data to Resource Collection.
-      $collection = new VotesCollection::make($recentVotes);
+      $collection = VotesCollection::make($recentVotes);
 
 Votes Client
 ------------
