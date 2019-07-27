@@ -7,9 +7,10 @@ use DevelopingSonder\PropublicaCongress\Http\Response;
 abstract class BaseClient
 {
     protected $offset = 0;
+    protected $only = true;
     protected $chamber;
     protected $congress;
-    public $lastResponse;
+    protected $lastResponse;
     protected $lastEndpoint;
     protected $lastOptions;
 
@@ -40,23 +41,23 @@ abstract class BaseClient
             throw $e;
         }
 
-        return ($this->onlyResults()) ? $response->results : $response;
+        return $response;
     }
 
-    public function nextPage($onlyResults = false)
+    public function nextPage($onlyItems = true)
     {
         $this->offset += 20;
         $response = $this->makeCall($this->lastEndpoint, $this->lastOptions);
 
-        return ($onlyResults) ? $response->results : $response;
+        return ($onlyItems) ? $response->items() : $response;
     }
 
-    public function previousPage($onlyResults = false)
+    public function previousPage($onlyItems = true)
     {
         $this->offset -= 20;
         $response = $this->makeCall($this->lastEndpoint, $this->lastOptions);
 
-        return ($onlyResults) ? $response->results : $response;
+        return ($onlyItems) ? $response->results : $response;
     }
 
     public function offset($offset)
@@ -70,8 +71,13 @@ abstract class BaseClient
         $this->offset = (20 * $pageNumber) - 20;
     }
 
-    public function onlyResults()
+    public function response()
     {
-        $this->onlyResults = true;
+        return $this->lastResponse;
+    }
+
+    public function fullResponse()
+    {
+        $this->onlyResults = false;
     }
 }

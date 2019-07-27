@@ -78,23 +78,37 @@
             
               <!-- Local TOC -->
               <div class="local-toc"><ul>
-<li><a class="reference internal" href="#">PHP SDK for Propublica’s Congress API</a></li>
+<li><a class="reference internal" href="#">PHP SDK for Propublica’s Congress API</a><ul>
 <li><a class="reference internal" href="#installation">Installation</a><ul>
 <li><a class="reference internal" href="#requirements">Requirements</a></li>
 <li><a class="reference internal" href="#project-setup">Project Setup</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#http-structure">HTTP Structure</a></li>
-<li><a class="reference internal" href="#the-models">The Models</a></li>
+<li><a class="reference internal" href="#http-structure">HTTP Structure</a><ul>
+<li><a class="reference internal" href="#the-connection-singleton">The Connection Singleton</a></li>
+<li><a class="reference internal" href="#the-response-class">The Response Class</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#the-resources">The Resources</a></li>
 <li><a class="reference internal" href="#the-clients">The Clients</a><ul>
 <li><a class="reference internal" href="#votes-client">Votes Client</a><ul>
 <li><a class="reference internal" href="#recent-votes">Recent Votes</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#members">Members</a></li>
+<li><a class="reference internal" href="#members-client">Members Client</a><ul>
+<li><a class="reference internal" href="#find">Find</a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#bills">Bills</a><ul>
 <li><a class="reference internal" href="#recent-bills">Recent Bills</a></li>
 <li><a class="reference internal" href="#recent-bills-by-member">Recent Bills By Member</a></li>
+<li><a class="reference internal" href="#recent-bills-by-subject">Recent Bills By Subject</a></li>
+<li><a class="reference internal" href="#upcoming-bills">Upcoming Bills</a></li>
+<li><a class="reference internal" href="#amendments">Amendments</a></li>
+<li><a class="reference internal" href="#subjects">Subjects</a></li>
+<li><a class="reference internal" href="#related-bills">Related Bills</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -163,16 +177,15 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="php-sdk-for-propublica-s-congress-api">
+  <div class="toctree-wrapper compound">
+</div>
+<div class="section" id="php-sdk-for-propublica-s-congress-api">
 <h1>PHP SDK for Propublica’s Congress API<a class="headerlink" href="#php-sdk-for-propublica-s-congress-api" title="Permalink to this headline">¶</a></h1>
-<div class="toctree-wrapper compound">
-</div>
 <p>Something Here!</p>
-</div>
 <div class="section" id="installation">
-<h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="requirements">
-<h2>Requirements<a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h2>
+<h3>Requirements<a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>php &gt;= 7.2</li>
 <li>illuminate/contracts 5.1.*|5.2.*|5.3.*|5.4.*|5.5.*|5.6.*</li>
@@ -181,7 +194,7 @@
 </ul>
 </div>
 <div class="section" id="project-setup">
-<h2>Project Setup<a class="headerlink" href="#project-setup" title="Permalink to this headline">¶</a></h2>
+<h3>Project Setup<a class="headerlink" href="#project-setup" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">composer install developingsonder/propublica-congress</span>
 </pre></div>
 </div>
@@ -196,20 +209,28 @@ If you’re using v1, you can remove that line, though we recommend you leave it
 </div>
 </div>
 <div class="section" id="http-structure">
-<h1>HTTP Structure<a class="headerlink" href="#http-structure" title="Permalink to this headline">¶</a></h1>
+<h2>HTTP Structure<a class="headerlink" href="#http-structure" title="Permalink to this headline">¶</a></h2>
 <p>Something to follow here.</p>
+<div class="section" id="the-connection-singleton">
+<h3>The Connection Singleton<a class="headerlink" href="#the-connection-singleton" title="Permalink to this headline">¶</a></h3>
+<p>Something Here.</p>
 </div>
-<div class="section" id="the-models">
-<h1>The Models<a class="headerlink" href="#the-models" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="the-response-class">
+<h3>The Response Class<a class="headerlink" href="#the-response-class" title="Permalink to this headline">¶</a></h3>
+<p>Something here.</p>
+</div>
+</div>
+<div class="section" id="the-resources">
+<h2>The Resources<a class="headerlink" href="#the-resources" title="Permalink to this headline">¶</a></h2>
 <p>The models represent each endpoint in the Propublica Congress API. Below you’ll find references for all that are completed in our sdk.</p>
 <p>Each request by the models returns result sets of 20. An offset can be supplied for pagination. The offset number must be a multiplier of 20.</p>
 </div>
 <div class="section" id="the-clients">
-<h1>The Clients<a class="headerlink" href="#the-clients" title="Permalink to this headline">¶</a></h1>
-<p>The Client classes hold the logic required to connect to the API. Their main purpose is to mirror the ProPublica Congress API and handle the response. Each endpoint will return
-an instance of a <code class="docutils literal notranslate"><span class="pre">DevelopingSonder\PropublicaCongress\Http\Response::class</span></code>.</p>
-<p>In addition to the Response class being returned,  the Client itself will retain information about the last request which can be accessed through <code class="docutils literal notranslate"><span class="pre">$lastResponse</span></code> variable.
-This can be useful when you want to repeat a call or for pagination of data as some endpoint will only return one page of 20 results at the time.</p>
+<h2>The Clients<a class="headerlink" href="#the-clients" title="Permalink to this headline">¶</a></h2>
+<p>The Client classes hold the logic required to connect to the API. Their main purpose is to mirror the ProPublica Congress API and handle the response. Each endpoint will return the
+items from the “results” key of the response data.</p>
+<p>Additionally the Client will retain the last response. The response can be accessed as <code class="docutils literal notranslate"><span class="pre">$client-&gt;response()</span></code>. The <code class="docutils literal notranslate"><span class="pre">Developing\Sonder\Http\Response::class</span></code> is a
+wrapper for the guzzleHttp response that provides easier access to information from the body stream. This can be useful when you want to repeat a call or for pagination of data as some endpoints will only return one page of 20 results at the time.</p>
 <div class="highlight-php notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
 2
 3
@@ -222,10 +243,10 @@ This can be useful when you want to repeat a call or for pagination of data as s
 <span class="nv">$votes</span> <span class="o">=</span> <span class="nv">$client</span><span class="o">-&gt;</span><span class="na">recent</span><span class="p">(</span><span class="s1">&#39;senate&#39;</span><span class="p">);</span>
 
 <span class="c1">// The $lastResponse variable is publicly accessible.</span>
-<span class="nv">$responseStatus</span> <span class="o">=</span> <span class="nv">$client</span><span class="o">-&gt;</span><span class="na">lastResponse</span><span class="o">-&gt;</span><span class="na">status</span><span class="p">;</span>
+<span class="nv">$responseStatus</span> <span class="o">=</span> <span class="nv">$client</span><span class="o">-&gt;</span><span class="na">response</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">status</span><span class="p">;</span>
 </pre></div>
 </td></tr></table></div>
-<p><strong>Propublica’s Pagination</strong> returns page’s of 20. The client classes contain an <code class="docutils literal notranslate"><span class="pre">$page</span></code> variable that allows you effectively designate a page of results to be returned. The
+<p><strong>Propublica’s Pagination</strong> returns page’s of 20. The client classes contain a <code class="docutils literal notranslate"><span class="pre">$offset</span></code> variable that allows you effectively designate a page of results to be returned. The
 <code class="docutils literal notranslate"><span class="pre">$page</span></code> variables index starts at 1.</p>
 <p>The clients also include <code class="docutils literal notranslate"><span class="pre">$client-&gt;nextPage()</span></code> and <code class="docutils literal notranslate"><span class="pre">$client-&gt;previousPage()</span></code> methods that allow to quickly increment and decrement
 the offset before immediately rerunning the last request.</p>
@@ -273,10 +294,10 @@ the offset before immediately rerunning the last request.</p>
 </pre></div>
 </td></tr></table></div>
 <div class="section" id="votes-client">
-<h2>Votes Client<a class="headerlink" href="#votes-client" title="Permalink to this headline">¶</a></h2>
+<h3>Votes Client<a class="headerlink" href="#votes-client" title="Permalink to this headline">¶</a></h3>
 <p>The Votes Model gives you access to Congresses voting records.</p>
 <div class="section" id="recent-votes">
-<h3>Recent Votes<a class="headerlink" href="#recent-votes" title="Permalink to this headline">¶</a></h3>
+<h4>Recent Votes<a class="headerlink" href="#recent-votes" title="Permalink to this headline">¶</a></h4>
 <div class="highlight-php notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
  2
  3
@@ -304,19 +325,40 @@ the offset before immediately rerunning the last request.</p>
 </td></tr></table></div>
 </div>
 </div>
-<div class="section" id="members">
-<h2>Members<a class="headerlink" href="#members" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="members-client">
+<h3>Members Client<a class="headerlink" href="#members-client" title="Permalink to this headline">¶</a></h3>
 <p>Members Client</p>
+<div class="section" id="find">
+<h4>Find<a class="headerlink" href="#find" title="Permalink to this headline">¶</a></h4>
+<p>Add Here</p>
+</div>
 </div>
 <div class="section" id="bills">
-<h2>Bills<a class="headerlink" href="#bills" title="Permalink to this headline">¶</a></h2>
+<h3>Bills<a class="headerlink" href="#bills" title="Permalink to this headline">¶</a></h3>
 <p>The Bills Client allows you to access the /bills endpoint of the Propublica Congress API. A <code class="docutils literal notranslate"><span class="pre">DevelopingSonder\PropublicaCongress\Helpers\BillsCollection</span></code> class
 also exists to help convert array data into Bill’s resources.</p>
 <p>When a <code class="docutils literal notranslate"><span class="pre">$type</span></code> argument is present on a method you may pass one of the six following bill statuses:</p>
 <p><code class="docutils literal notranslate"><span class="pre">introduced</span></code> <code class="docutils literal notranslate"><span class="pre">updated</span></code> <code class="docutils literal notranslate"><span class="pre">active</span></code> <code class="docutils literal notranslate"><span class="pre">passed</span></code> <code class="docutils literal notranslate"><span class="pre">enacted</span></code> <code class="docutils literal notranslate"><span class="pre">vetoed</span></code></p>
 <div class="section" id="recent-bills">
-<h3>Recent Bills<a class="headerlink" href="#recent-bills" title="Permalink to this headline">¶</a></h3>
+<h4>Recent Bills<a class="headerlink" href="#recent-bills" title="Permalink to this headline">¶</a></h4>
 <p><code class="docutils literal notranslate"><span class="pre">recent($congress,</span> <span class="pre">$chamber,</span> <span class="pre">$type)</span></code></p>
+<div class="highlight-php notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6</pre></div></td><td class="code"><div class="highlight"><pre><span></span>   <span class="k">use</span> <span class="nx">DevelopingSonder\Bills</span><span class="p">;</span>
+
+   <span class="nv">$bClient</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">BillsClient</span><span class="p">;</span>
+
+   <span class="c1">// Return the Bills from the 115th Congress that passed in the Senate.</span>
+   <span class="nv">$bills</span> <span class="o">=</span> <span class="nv">$bClient</span><span class="o">-&gt;</span><span class="na">recent</span><span class="p">(</span><span class="s1">&#39;115&#39;</span><span class="p">,</span> <span class="s1">&#39;senate&#39;</span><span class="p">,</span> <span class="s1">&#39;passed&#39;</span><span class="p">);</span>
+</pre></div>
+</td></tr></table></div>
+</div>
+<div class="section" id="recent-bills-by-member">
+<h4>Recent Bills By Member<a class="headerlink" href="#recent-bills-by-member" title="Permalink to this headline">¶</a></h4>
+<p><code class="docutils literal notranslate"><span class="pre">recentByMember($memberId,</span> <span class="pre">$type)</span></code></p>
 <div class="highlight-php notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
  2
  3
@@ -326,45 +368,102 @@ also exists to help convert array data into Bill’s resources.</p>
  7
  8
  9
-10
-11
-12
-13
-14</pre></div></td><td class="code"><div class="highlight"><pre><span></span>   <span class="k">use</span> <span class="nx">DevelopingSonder\Bills</span><span class="p">;</span>
+10</pre></div></td><td class="code"><div class="highlight"><pre><span></span>      <span class="k">use</span> <span class="nx">DevelopingSonder\BillsClient</span><span class="p">;</span>
 
-   <span class="nv">$billManager</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Bills</span><span class="p">;</span>
+      <span class="nv">$bClient</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">BillsClient</span><span class="p">;</span>
 
-   <span class="c1">// Return the Bills from the 115th Congress that passed in the Senate.</span>
-   <span class="nv">$response</span> <span class="o">=</span> <span class="nv">$billManager</span><span class="o">-&gt;</span><span class="na">recent</span><span class="p">(</span><span class="s1">&#39;115&#39;</span><span class="p">,</span> <span class="s1">&#39;senate&#39;</span><span class="p">,</span> <span class="s1">&#39;passed&#39;</span><span class="p">);</span>
-   <span class="nv">$bills</span> <span class="o">=</span> <span class="nv">$response</span><span class="o">-&gt;</span><span class="na">results</span><span class="p">();</span>
+      <span class="c1">// Return the Bills from the 115th Congress that passed in the Senate.</span>
+      <span class="nv">$bills</span> <span class="o">=</span> <span class="nv">$bClient</span><span class="o">-&gt;</span><span class="na">recentByMember</span><span class="p">(</span><span class="s1">&#39;R000595&#39;</span><span class="p">,</span> <span class="s1">&#39;passed&#39;</span><span class="p">);</span>
 
-   <span class="c1">// Return the next 20 recent votes</span>
-   <span class="nv">$bills</span> <span class="o">=</span> <span class="nv">$billManager</span><span class="o">-&gt;</span><span class="na">nextPage</span><span class="p">(</span><span class="k">true</span><span class="p">);</span>
-
-   <span class="c1">// Create a Collection of Bills Resources</span>
-   <span class="nv">$collection</span> <span class="o">=</span> <span class="nx">BillsCollection</span><span class="o">::</span><span class="na">make</span><span class="p">(</span><span class="nv">$bills</span><span class="p">);</span>
-   <span class="nv">$billSponsorName</span> <span class="o">=</span> <span class="nv">$collection</span><span class="o">-&gt;</span><span class="na">first</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">sponsor_name</span><span class="p">;</span>
+      <span class="c1">// Alternatively you can pass an instance of a Member Resource</span>
+      <span class="nv">$member</span> <span class="o">=</span> <span class="nx">MemberClient</span><span class="o">::</span><span class="na">find</span><span class="p">(</span><span class="s1">&#39;R000595&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">results</span><span class="p">();</span>
+      <span class="nv">$bills</span> <span class="o">=</span> <span class="nv">$bClient</span><span class="o">-&gt;</span><span class="na">recentByMember</span><span class="p">(</span><span class="nv">$member</span><span class="p">,</span> <span class="s1">&#39;introduced&#39;</span><span class="p">);</span>
 </pre></div>
 </td></tr></table></div>
 </div>
-<div class="section" id="recent-bills-by-member">
-<h3>Recent Bills By Member<a class="headerlink" href="#recent-bills-by-member" title="Permalink to this headline">¶</a></h3>
-<p><code class="docutils literal notranslate"><span class="pre">recentByMember($memberId,</span> <span class="pre">$type)</span></code></p>
+<div class="section" id="recent-bills-by-subject">
+<h4>Recent Bills By Subject<a class="headerlink" href="#recent-bills-by-subject" title="Permalink to this headline">¶</a></h4>
+<p><code class="docutils literal notranslate"><span class="pre">recentBySubject($subject)</span></code></p>
+<div class="highlight-php notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5</pre></div></td><td class="code"><div class="highlight"><pre><span></span>         <span class="k">use</span> <span class="nx">DevelopingSonder\BillsClient</span><span class="p">;</span>
+         <span class="nv">$bClient</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">BillsClient</span><span class="p">;</span>
+
+         <span class="c1">// Return the recent Bills that include a subject of &#39;climate&#39;</span>
+         <span class="nv">$bills</span> <span class="o">=</span> <span class="nv">$bClient</span><span class="o">-&gt;</span><span class="na">recentBySubject</span><span class="p">(</span><span class="s1">&#39;climate&#39;</span><span class="p">);</span>
+</pre></div>
+</td></tr></table></div>
+</div>
+<div class="section" id="upcoming-bills">
+<h4>Upcoming Bills<a class="headerlink" href="#upcoming-bills" title="Permalink to this headline">¶</a></h4>
+<p><code class="docutils literal notranslate"><span class="pre">recentBySubject($chamber)</span></code></p>
+<div class="highlight-php notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5</pre></div></td><td class="code"><div class="highlight"><pre><span></span>            <span class="k">use</span> <span class="nx">DevelopingSonder\BillsClient</span><span class="p">;</span>
+            <span class="nv">$bClient</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">BillsClient</span><span class="p">;</span>
+
+            <span class="c1">// Return the upcoming bills in the House.</span>
+            <span class="nv">$bills</span> <span class="o">=</span> <span class="nv">$bClient</span><span class="o">-&gt;</span><span class="na">upcoming</span><span class="p">(</span><span class="s1">&#39;house&#39;</span><span class="p">);</span>
+</pre></div>
+</td></tr></table></div>
+</div>
+<div class="section" id="amendments">
+<h4>Amendments<a class="headerlink" href="#amendments" title="Permalink to this headline">¶</a></h4>
+<p><code class="docutils literal notranslate"><span class="pre">recentBySubject($billSlug,</span> <span class="pre">$congress,</span> <span class="pre">$onlyAmendments</span> <span class="pre">=</span> <span class="pre">true)</span></code></p>
 <div class="highlight-php notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
 2
 3
 4
 5
 6
-7</pre></div></td><td class="code"><div class="highlight"><pre><span></span>      <span class="c1">// Return the Bills from the 115th Congress that passed in the Senate.</span>
-      <span class="nv">$response</span> <span class="o">=</span> <span class="nv">$billManager</span><span class="o">-&gt;</span><span class="na">recentByMember</span><span class="p">(</span><span class="s1">&#39;R000595&#39;</span><span class="p">,</span> <span class="s1">&#39;passed&#39;</span><span class="p">);</span>
-      <span class="nv">$bills</span> <span class="o">=</span> <span class="nv">$response</span><span class="o">-&gt;</span><span class="na">results</span><span class="p">();</span>
+7
+8</pre></div></td><td class="code"><div class="highlight"><pre><span></span>            <span class="k">use</span> <span class="nx">DevelopingSonder\BillsClient</span><span class="p">;</span>
+            <span class="nv">$bClient</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">BillsClient</span><span class="p">;</span>
 
-      <span class="c1">// Alternatively you can pass an instance of a Member Resource</span>
-      <span class="nv">$member</span> <span class="o">=</span> <span class="nx">MemberClient</span><span class="o">::</span><span class="na">find</span><span class="p">(</span><span class="s1">&#39;R000595&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">results</span><span class="p">();</span>
-      <span class="nv">$bills</span> <span class="o">=</span> <span class="nv">$billManager</span><span class="o">-&gt;</span><span class="na">recentByMember</span><span class="p">(</span><span class="nv">$member</span><span class="p">,</span> <span class="s1">&#39;introduced&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">results</span><span class="p">();</span>
+            <span class="c1">// Return the Bills from the 115th Congress that passed in the Senate.</span>
+            <span class="nv">$amendments</span> <span class="o">=</span> <span class="nv">$bClient</span><span class="o">-&gt;</span><span class="na">amendments</span><span class="p">(</span><span class="s1">&#39;hr21&#39;</span><span class="p">,</span> <span class="s1">&#39;115&#39;</span><span class="p">);</span>
+
+            <span class="c1">// Full Response Result object that includes Bill information</span>
+            <span class="nv">$billWithAmendments</span> <span class="o">=</span> <span class="nv">$bClient</span><span class="o">-&gt;</span><span class="na">amendments</span><span class="p">(</span><span class="s1">&#39;hr21&#39;</span><span class="p">,</span> <span class="s1">&#39;115&#39;</span><span class="p">,</span> <span class="k">false</span><span class="p">);</span>
 </pre></div>
 </td></tr></table></div>
+</div>
+<div class="section" id="subjects">
+<h4>Subjects<a class="headerlink" href="#subjects" title="Permalink to this headline">¶</a></h4>
+<p><code class="docutils literal notranslate"><span class="pre">recentBySubject($chamber)</span></code></p>
+<div class="highlight-php notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5</pre></div></td><td class="code"><div class="highlight"><pre><span></span>               <span class="k">use</span> <span class="nx">DevelopingSonder\BillsClient</span><span class="p">;</span>
+               <span class="nv">$bClient</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">BillsClient</span><span class="p">;</span>
+
+               <span class="c1">// Return the upcoming bills in the House.</span>
+               <span class="nv">$bills</span> <span class="o">=</span> <span class="nv">$bClient</span><span class="o">-&gt;</span><span class="na">upcoming</span><span class="p">(</span><span class="s1">&#39;house&#39;</span><span class="p">);</span>
+</pre></div>
+</td></tr></table></div>
+</div>
+<div class="section" id="related-bills">
+<h4>Related Bills<a class="headerlink" href="#related-bills" title="Permalink to this headline">¶</a></h4>
+<p><a class="reference external" href="https://projects.propublica.org/api-docs/congress-api/bills/#get-related-bills-for-a-specific-bill">Propublica Documentation</a></p>
+<p>Get Bills related to a specific bill. The bill_slug is used as the reference for this relationship.</p>
+<p><code class="docutils literal notranslate"><span class="pre">recentBySubject($billSlug,</span> <span class="pre">$congress)</span></code></p>
+<div class="highlight-php notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5</pre></div></td><td class="code"><div class="highlight"><pre><span></span>               <span class="k">use</span> <span class="nx">DevelopingSonder\BillsClient</span><span class="p">;</span>
+               <span class="nv">$bClient</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">BillsClient</span><span class="p">;</span>
+
+               <span class="c1">// Return the upcoming bills in the House.</span>
+               <span class="nv">$bills</span> <span class="o">=</span> <span class="nv">$bClient</span><span class="o">-&gt;</span><span class="na">related</span><span class="p">(</span><span class="s1">&#39;hr21&#39;</span><span class="p">,</span> <span class="s1">&#39;115&#39;</span><span class="p">);</span>
+</pre></div>
+</td></tr></table></div>
+</div>
 </div>
 </div>
 </div>

@@ -4,7 +4,7 @@ namespace DevelopingSonder\PropublicaCongress\Clients;
 use DevelopingSonder\PropublicaCongress\Http\Response;
 use DevelopingSonder\PropublicaCongress\Resources\Member;
 
-class Bills extends BaseClient
+class BillsClient extends BaseClient
 {
 
     /**
@@ -20,7 +20,9 @@ class Bills extends BaseClient
     public function search($query, $sort = 'date', $dir = 'desc')
     {
         $endpoint = "bills/search.json?query={$query}&sort={$sort}&dir={$dir}";
-        return $this->makeCall($endpoint);
+        $response = $this->makeCall($endpoint);
+
+        return $response->items();
     }
 
     /**
@@ -38,7 +40,9 @@ class Bills extends BaseClient
     public function recent($congress, $chamber, $type)
     {
         $endpoint = "{$congress}/{$chamber}/bills/{$type}.json";
-        return $this->makeCall($endpoint);
+        $response =  $this->makeCall($endpoint);
+
+        return $response->items();
     }
 
     /**
@@ -55,7 +59,9 @@ class Bills extends BaseClient
         $memberId = ($member instanceof Member)? $member->id : $member;
 
         $endpoint = "members/{$memberId}/bills/{$type}.json";
-        return $this->makeCall($endpoint);
+        $response = $this->makeCall($endpoint);
+
+        return $response->items();
     }
 
     /**
@@ -69,7 +75,9 @@ class Bills extends BaseClient
     public function recentBySubject($subject)
     {
         $endpoint = "bills/subjects/{$subject}.json";
-        return $this->makeCall($endpoint);
+        $response = $this->makeCall($endpoint);
+
+        return $response->items();
     }
 
     /**
@@ -83,7 +91,9 @@ class Bills extends BaseClient
     public function upcoming($chamber)
     {
         $endpoint = "bills/upcoming/{$chamber}.json";
-        return $this->makeCall($endpoint);
+        $response = $this->makeCall($endpoint);
+
+        return $response->items();
     }
 
     /**
@@ -98,7 +108,9 @@ class Bills extends BaseClient
     public function find($id, $congress)
     {
         $endpoint = "{$congress}/bills/{$id}.json";
-        return $this->makeCall($endpoint);
+        $response = $this->makeCall($endpoint);
+
+        return $response->item();
     }
 
     /**
@@ -107,13 +119,18 @@ class Bills extends BaseClient
      *
      * @param $id
      * @param $congress
+     * @param $onlyAmendments
      * @return mixed
      * @throws \Exception
      */
-    public function amendments($id, $congress)
+    public function amendments($id, $congress, $onlyAmendments = true)
     {
         $endpoint = "{$congress}/bills/{$id}/amendments.json";
-        return $this->makeCall($endpoint);
+        $response = $this->makeCall($endpoint);
+
+        return ($onlyAmendments) ?
+            $response->results()[0]->amendments :
+            $response->results()[0];
     }
 
     /**
@@ -122,13 +139,18 @@ class Bills extends BaseClient
      *
      * @param $id
      * @param $congress
+     * @param $onlySubjects
      * @return Response
      * @throws \Exception
      */
-    public function subjects($id, $congress)
+    public function subjects($id, $congress, $onlySubjects = false)
     {
         $endpoint = "{$congress}/bills/{$id}/subjects.json";
-        return $this->makeCall($endpoint);
+        $response = $this->makeCall($endpoint);
+
+        return ($onlySubjects) ?
+            $response->results()[0]->subjects :
+            $response->results()[0];
     }
 
     /**
@@ -154,10 +176,14 @@ class Bills extends BaseClient
      * @return Response
      * @throws \Exception
      */
-    public function specificBillSubject($query)
+    public function specificBillSubject($query, $onlySubjects = true)
     {
         $endpoint = "bills/subjects/search.json?query={$query}";
-        return $this->makeCall($endpoint);
+        $response = $this->makeCall($endpoint);
+
+        return ($onlySubjects)?
+            $response->results()[0]->subjects :
+            $response->results()[0];
     }
 
     /**
@@ -172,6 +198,8 @@ class Bills extends BaseClient
     public function cosponsors($id, $congress)
     {
         $endpoint = "{$congress}/bills/{$id}/cosponsors.json";
-        return $this->makeCall($endpoint);
+        $response = $this->makeCall($endpoint);
+
+        return $response->items();
     }
 }

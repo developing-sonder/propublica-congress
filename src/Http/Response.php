@@ -26,6 +26,10 @@ class Response
         $this->contents->put($name, $value);
     }
 
+    public function results()
+    {
+        return $this->results;
+    }
 
     protected function validateResponse()
     {

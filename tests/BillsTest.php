@@ -2,13 +2,11 @@
 
 namespace DevelopingSonder\PropublicaCongress;
 
-
 use DevelopingSonder\PropublicaCongress\Http\Response;
-use DevelopingSonder\PropublicaCongress\Clients\Bills;
+use DevelopingSonder\PropublicaCongress\Clients\BillsClient;
 use DevelopingSonder\PropublicaCongress\Resources\Bill;
 use DevelopingSonder\PropublicaCongress\Helpers\BillsCollection;
 
-use GuzzleHttp\Client;
 use Illuminate\Support\Collection;
 use PHPUnit\Framework\TestCase;
 use Dotenv\Dotenv;
@@ -18,11 +16,11 @@ class BillsTest extends TestCase
 
     public function testBillsClientCreation()
     {
-        $loader = new Dotenv(__DIR__);
+        $loader = Dotenv::create(__DIR__);
         $loader->load();
 
-        $billsClient = new Bills();
-        $this->assertInstanceOf(Bills::class, $billsClient);
+        $billsClient = new BillsClient();
+        $this->assertInstanceOf(BillsClient::class, $billsClient);
 
         return $billsClient;
     }
@@ -35,21 +33,22 @@ class BillsTest extends TestCase
     public function testCanSearchBills($client)
     {
         $bills = $client->search("military", "date", "asc");
-        $this->assertInstanceOf(Response::class, $bills);
+
+        $this->assertInstanceOf(Response::class, $client->response());
+        $this->assertEquals('OK', $client->response()->status);
+        $this->assertIsArray($bills);
 
         return $bills;
     }
 
     /**
+     * @depends testCanSearchBills
      * @param $bills
      * @depends testCanSearchBills
      */
-    public function testCanMakeBillsCollection($response)
+    public function testCanMakeBillsCollection($bills)
     {
-        $this->assertIsArray($response->results);
-        $this->assertIsArray($response->items());
-
-        $response = BillsCollection::resource($response->items());
+        $response = BillsCollection::resource($bills);
         $this->assertContainsOnlyInstancesOf(Bill::class, $response);
         //$this->assertClassHasAttribute('attributes', Bill::class);
     }
@@ -59,87 +58,90 @@ class BillsTest extends TestCase
      */
     public function testCanGetRecentBills()
     {
-        $client = new Bills();
+        $client = new BillsClient();
 
-        $response = $client->recent('116', 'house', 'introduced');
-        $this->assertInstanceOf(Response::class, $response);
+        $bills = $client->recent('116', 'house', 'introduced');
 
-        $coll = BillsCollection::resource($response->items());
+        $this->assertInstanceOf(Response::class, $client->response());
+        $this->assertIsArray($bills);
+
+        $coll = BillsCollection::resource($bills);
         $this->assertGreaterThan(0, $coll->count());
     }
 
     /**
-     * @return mixed
+     * @throws \Exception
      */
     public function testCanGetRecentBillsByMember()
     {
-        $client = new Bills();
-        $response = $client->recentByMember('A000360', 'introduced');
+        $client = new BillsClient();
+        $bills = $client->recentByMember('A000360', 'introduced');
 
-        $this->assertInstanceOf(Response::class, $response);
-        $this->assertGreaterThan(0, $response->items());
-
-        return $client;
+        $this->assertInstanceOf(Response::class, $client->response());
+        $this->assertGreaterThan(0, $bills);
     }
 
     /**
-     * @return Bills
+     * @return BillsClient
      * @throws \Exception
      *
      */
     public function testCanGetRecentBillsBySubject()
     {
-        $client = new Bills();
-        $response = $client->recentBySubject('Meat');
+        $client = new BillsClient();
+        $bills = $client->recentBySubject('Meat');
 
-        $this->assertInstanceOf(Response::class, $response);
-
-        $this->assertGreaterThan(0, count($response->items()));
-
-        $response = $client->nextPage();
-        $this->assertInstanceOf(Response::class, $response);
-        $this->assertEquals(20, $response->offset);
-        $this->assertGreaterThan(0, count($response->items()));
-
-        $response = $client->nextPage();
-        $this->assertInstanceOf(Response::class, $response);
-        $this->assertEquals(40, $response->offset);
-        $this->assertGreaterThan(0, count($response->items()));
+        $this->assertInstanceOf(Response::class, $client->response());
+        $this->assertGreaterThan(0, count($bills));
         
         return $client;
     }
 
+    /**
+     * @depends testCanGetRecentBillsBySubject
+     * @param $client
+     */
+    public function testBillsClientCanGetNextPage($client)
+    {
+        $bills = $client->nextPage();
+        $this->assertInstanceOf(Response::class, $client->response());
+        $this->assertEquals(20, $client->response()->offset);
+        $this->assertGreaterThan(0, count($bills));
+
+        $bills = $client->nextPage();
+        $this->assertInstanceOf(Response::class, $client->response());
+        $this->assertEquals(40, $client->response()->offset);
+        $this->assertGreaterThan(0, count($bills));
+    }
 
 
     /**
-     * @return mixed
+     * @throws \Exception
      */
     public function testCanGetUpcomingBills()
     {
-        $client = new Bills();
-        $response = $client->upcoming('house');
+        $client = new BillsClient();
+        $bills = $client->upcoming('house');
 
-        $this->assertInstanceOf(Response::class, $response);
-        $this->assertEquals('OK', $response->status);
-
-        $this->assertGreaterThan(0, count($response->items()));
-
-        return $client;
+        $this->assertInstanceOf(Response::class, $client->response());
+        $this->assertEquals('OK', $client->response()->status);
+        $this->assertGreaterThan(0, count($bills));
     }
 
     /**
-     * @return mixed
+     * @return Bill
+     * @throws \Exception
      */
     public function testCanFindBills()
     {
-        $client = new Bills();
-        $response = $client->find('hr21', '115');
-        $bill = new Bill($response->item());
+        $client = new BillsClient();
+        $bill = $client->find('hr21', '115');
 
-        $this->assertInstanceOf(Response::class, $response);
-        $this->assertEquals('OK', $response->status);
+        $this->assertInstanceOf(Response::class, $client->response());
+        $this->assertEquals('OK', $client->response()->status);
+        $this->assertInstanceOf(\stdClass::class, $bill);
 
-        $this->assertEquals(1, count($response->results));
+        $bill = new Bill($bill);
         $this->assertEquals('hr21', $bill->bill_slug);
 
         return $bill;
@@ -153,13 +155,13 @@ class BillsTest extends TestCase
      */
     public function testCanGetAmendments($bill)
     {
-        $client = new Bills();
-        $response = $client->amendments($bill->bill_slug, $bill->congress);
+        $client = new BillsClient();
+        $amendments = $client->amendments($bill->bill_slug, $bill->congress);
 
-        $this->assertInstanceOf(Response::class, $response);
-        $this->assertEquals('OK', $response->status);
+        $this->assertInstanceOf(Response::class, $client->response());
+        $this->assertEquals('OK', $client->response()->status);
 
-        $this->assertGreaterThan(0, $response->items());
+        $this->assertGreaterThan(0, $amendments);
 
         return $bill;
     }
@@ -173,14 +175,14 @@ class BillsTest extends TestCase
      */
     public function testCanGetBillSubjects($bill)
     {
-        $client = new Bills();
-        $response = $client->subjects($bill->bill_slug, $bill->congress);
+        $client = new BillsClient();
+        $subjects = $client->subjects($bill->bill_slug, $bill->congress);
 
-        $this->assertInstanceOf(Response::class, $response);
-        $this->assertEquals('OK', $response->status);
+        $this->assertInstanceOf(Response::class, $client->response());
+        $this->assertEquals('OK', $client->response()->status);
 
-        $this->assertInstanceOf(\stdClass::class, $response->item());
-        $this->assertObjectHasAttribute('subjects', $response->item());
+        $this->assertInstanceOf(\stdClass::class, $client->response()->item());
+        $this->assertObjectHasAttribute('subjects', $client->response()->item());
 
 
         return $bill;
@@ -194,7 +196,7 @@ class BillsTest extends TestCase
      */
     public function testCanGetRelatedBills($bill)
     {
-        $client = new Bills();
+        $client = new BillsClient();
         $response = $client->relatedBills($bill->bill_slug, $bill->congress);
 
         $this->assertInstanceOf(Response::class, $response);
@@ -211,14 +213,14 @@ class BillsTest extends TestCase
      */
     public function testCanGetSpecificBillSubject()
     {
-        $client = new Bills();
-        $response = $client->specificBillSubject('climate');
+        $client = new BillsClient();
+        $subjects = $client->specificBillSubject('climate');
 
-        $this->assertInstanceOf(Response::class, $response);
-        $this->assertEquals('OK', $response->status);
+        $this->assertInstanceOf(Response::class, $client->response());
+        $this->assertEquals('OK', $client->response()->status);
 
-        $this->assertInstanceOf(\stdClass::class, $response->item());
-        $this->assertObjectHasAttribute('subjects', $response->item());
+        $this->assertIsArray($subjects);
+        $this->assertObjectHasAttribute('subjects', $client->response()->item());
     }
 
 
@@ -230,13 +232,13 @@ class BillsTest extends TestCase
      */
     public function testCanGetCosponsorsForASpecificBill($bill)
     {
-        $client = new Bills();
-        $response = $client->cosponsors($bill->bill_slug, $bill->congress);
+        $client = new BillsClient();
+        $cosponsors = $client->cosponsors($bill->bill_slug, $bill->congress);
 
-        $this->assertInstanceOf(Response::class, $response);
-        $this->assertEquals('OK', $response->status);
+        $this->assertInstanceOf(Response::class, $client->response());
+        $this->assertEquals('OK', $client->response()->status);
 
-        $this->assertIsArray($response->items());
+        $this->assertIsArray($cosponsors);
 
         return $bill;
     }

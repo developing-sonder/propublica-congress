@@ -21,7 +21,7 @@ abstract class BaseResource
 
     public function __get($name)
     {
-        return $this->attributes->get($name);
+        return $this->attributes->get('bill_' . $name) ?? $this->attributes->get($name);
     }
 
     public function __set($name, $value)
