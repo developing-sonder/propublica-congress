@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Search &mdash; php-propublica-congress-sdk  documentation</title>
+  <title>Installation &mdash; php-propublica-congress-sdk  documentation</title>
   
 
   
@@ -27,7 +27,9 @@
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="#" /> 
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Votes" href="models/votes.html" />
+    <link rel="prev" title="PHP SDK for Propublica’s Congress API" href="index.html" /> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -59,7 +61,7 @@
 
           
 <div role="search">
-  <form id="rtd-search-form" class="wy-form" action="#" method="get">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
@@ -77,20 +79,12 @@
             
             
               <p class="caption"><span class="caption-text">Package Instructions:</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#instructions">Instructions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#requirements">Requirements</a></li>
 </ul>
-<p class="caption"><span class="caption-text">HTTP Structures</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="http/request.html">Request</a></li>
-<li class="toctree-l1"><a class="reference internal" href="http/response.html">Response</a></li>
-<li class="toctree-l1"><a class="reference internal" href="clients.html">The Clients</a></li>
-</ul>
-<p class="caption"><span class="caption-text">The Clients:</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="clients/bills.html">Bills Client</a></li>
-<li class="toctree-l1"><a class="reference internal" href="clients/members.html">Members Client</a></li>
-<li class="toctree-l1"><a class="reference internal" href="clients/votes.html">Votes Client</a></li>
+</li>
 </ul>
 <p class="caption"><span class="caption-text">Models:</span></p>
 <ul>
@@ -142,12 +136,14 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-      <li>Search</li>
+      <li>Installation</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
+            <a href="_sources/installation.rst.txt" rel="nofollow"> View page source</a>
+          
         
       </li>
     
@@ -159,24 +155,47 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <noscript>
-  <div id="fallback" class="admonition warning">
-    <p class="last">
-      Please activate JavaScript to enable the search
-      functionality.
-    </p>
-  </div>
-  </noscript>
+  <div class="section" id="installation">
+<h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="instructions">
+<h2>Instructions<a class="headerlink" href="#instructions" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">composer install developingsonder/propublica-congress</span>
+</pre></div>
+</div>
+<p>Next you’ll need to get an API Key from <a class="reference external" href="https://projects.propublica.org/api-docs/congress-api/#get-an-api-key">Propublica.org</a>.
+Once you’ve received you API KEY place it in the .env file in the root of your project.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">PROPUBLICA_API_KEY=</span>
+<span class="go">PROPUBLICA_API_VERSION=v1</span>
+</pre></div>
+</div>
+<p>At the time of this documentation, the Propublica Congress API’s version is v1 and is the default used by <strong>DevelopingSonder\PropublicaCongress\Http\Connection::class()</strong>.
+If you’re using v1, you can remove that line, though we recommend you leave it for ease of upgrade later. The PROPUBLICA_API_KEY is required here.</p>
+</div>
+<div class="section" id="requirements">
+<h2>Requirements<a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>php &gt;= 7.2</li>
+<li>illuminate/contracts 5.1.*|5.2.*|5.3.*|5.4.*|5.5.*|5.6.*</li>
+<li>illuminate/support 5.1.*|5.2.*|5.3.*|5.4.*|5.5.*|5.6.*,</li>
+<li>guzzlehttp/guzzle ^6.3</li>
+</ul>
+</div>
+</div>
 
-  
-  <div id="search-results">
-  
-  </div>
 
            </div>
            
           </div>
           <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="models/votes.html" class="btn btn-neutral float-right" title="Votes" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="index.html" class="btn btn-neutral" title="PHP SDK for Propublica’s Congress API" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
   
 
   <hr/>
@@ -209,7 +228,6 @@
         <script type="text/javascript" src="_static/underscore.js"></script>
         <script type="text/javascript" src="_static/doctools.js"></script>
         <script type="text/javascript" src="_static/language_data.js"></script>
-        <script type="text/javascript" src="_static/searchtools.js"></script>
     
 
   
@@ -220,14 +238,7 @@
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-  <script type="text/javascript">
-    jQuery(function() { Search.loadIndex("searchindex.js"); });
-  </script>
-  
-  <script type="text/javascript" id="searchindexloader"></script>
-   
-
+  </script> 
 
 </body>
 </html>

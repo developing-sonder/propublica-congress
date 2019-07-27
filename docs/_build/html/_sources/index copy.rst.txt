@@ -14,22 +14,6 @@ PHP SDK for Propublica's Congress API
    installation
 
 .. toctree::
-  :maxdepth: 3
-  :caption: HTTP Structures
-
-  http/request
-  http/response
-  clients
-   
-.. toctree::
-   :maxdepth: 3
-   :caption: The Clients:
-
-   clients/bills
-   clients/members
-   clients/votes
-
-.. toctree::
     :maxdepth: 3
     :caption: Models:
 

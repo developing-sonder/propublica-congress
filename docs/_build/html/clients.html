@@ -1,0 +1,299 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>The Clients &mdash; php-propublica-congress-sdk  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Bills Client" href="clients/bills.html" />
+    <link rel="prev" title="Installation" href="installation.html" /> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> php-propublica-congress-sdk
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Package Instructions:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">HTTP Structures</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">The Clients</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#pagination">Pagination</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">The Clients:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="clients/bills.html">Bills Client</a></li>
+<li class="toctree-l1"><a class="reference internal" href="clients/members.html">Members Client</a></li>
+<li class="toctree-l1"><a class="reference internal" href="clients/votes.html">Votes Client</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Models:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="models/votes.html">Votes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="models/bills.html">Bills</a></li>
+<li class="toctree-l1"><a class="reference internal" href="models/members.html">Members</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">php-propublica-congress-sdk</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>The Clients</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/clients.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="the-clients">
+<h1>The Clients<a class="headerlink" href="#the-clients" title="Permalink to this headline">¶</a></h1>
+<p>The Client classes hold the logic required to connect to the API. Their main purpose is to mirror the ProPublica Congress API and handle the response. Each endpoint will return the
+items from the “results” key of the response data.</p>
+<p>Additionally the Client will retain the last response. The response can be accessed as <code class="docutils literal notranslate"><span class="pre">$client-&gt;response()</span></code>. The <code class="docutils literal notranslate"><span class="pre">Developing\Sonder\Http\Response::class</span></code> is a
+wrapper for the guzzleHttp response that provides easier access to information from the body stream. This can be useful when you want to repeat a call or for pagination of data as some endpoints will only return one page of 20 results at the time.</p>
+<div class="highlight-php notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="nv">$client</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">VotesClient</span><span class="p">;</span>
+
+<span class="c1">// Votes is an array containing STD objects of vote information.</span>
+<span class="nv">$votes</span> <span class="o">=</span> <span class="nv">$client</span><span class="o">-&gt;</span><span class="na">recent</span><span class="p">(</span><span class="s1">&#39;senate&#39;</span><span class="p">);</span>
+
+<span class="c1">// The $lastResponse variable is publicly accessible.</span>
+<span class="nv">$responseStatus</span> <span class="o">=</span> <span class="nv">$client</span><span class="o">-&gt;</span><span class="na">response</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">status</span><span class="p">;</span>
+</pre></div>
+</td></tr></table></div>
+<div class="section" id="pagination">
+<h2>Pagination<a class="headerlink" href="#pagination" title="Permalink to this headline">¶</a></h2>
+<p><strong>Propublica’s Pagination</strong> returns page’s of 20. The client classes contain a <code class="docutils literal notranslate"><span class="pre">$offset</span></code> variable that allows you effectively designate a page of results to be returned. The
+<code class="docutils literal notranslate"><span class="pre">$page</span></code> variables index starts at 1.</p>
+<p>The clients also include <code class="docutils literal notranslate"><span class="pre">$client-&gt;nextPage()</span></code> and <code class="docutils literal notranslate"><span class="pre">$client-&gt;previousPage()</span></code> methods that allow to quickly increment and decrement
+the offset before immediately rerunning the last request.</p>
+<div class="highlight-php notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21</pre></div></td><td class="code"><div class="highlight"><pre><span></span>   <span class="k">use</span> <span class="nx">DevelopingSonder\Clients\VotesClient</span><span class="p">;</span>
+
+   <span class="nv">$client</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">VotesClient</span><span class="p">;</span>
+
+   <span class="c1">// Returns most recent twenty recent votes</span>
+   <span class="nv">$response</span> <span class="o">=</span> <span class="nv">$voteManager</span><span class="o">-&gt;</span><span class="na">recent</span><span class="p">(</span><span class="s1">&#39;senate&#39;</span><span class="p">);</span>
+   <span class="nv">$votes</span> <span class="o">=</span> <span class="nv">$response</span><span class="o">-&gt;</span><span class="na">results</span><span class="p">();</span>
+
+   <span class="c1">// Return the next 20 recent votes</span>
+   <span class="nv">$response</span> <span class="o">=</span> <span class="nv">$voteManager</span><span class="o">-&gt;</span><span class="na">nextPage</span><span class="p">();</span>
+   <span class="nv">$votes</span> <span class="o">=</span> <span class="nv">$response</span><span class="o">-&gt;</span><span class="na">results</span><span class="p">();</span>
+
+   <span class="c1">// Return the previous 20 recent votes</span>
+   <span class="nv">$response</span> <span class="o">=</span> <span class="nv">$voteManager</span><span class="o">-&gt;</span><span class="na">previousPage</span><span class="p">();</span>
+   <span class="nv">$votes</span> <span class="o">=</span> <span class="nv">$response</span><span class="o">-&gt;</span><span class="na">results</span><span class="p">();</span>
+
+   <span class="c1">// Return only the results array of the Response</span>
+   <span class="nv">$votes</span> <span class="o">=</span> <span class="nv">$voteClient</span><span class="o">-&gt;</span><span class="na">nextPage</span><span class="p">(</span><span class="k">true</span><span class="p">);</span>
+
+   <span class="c1">// Convert response data to Resource Collection.</span>
+   <span class="nv">$collection</span> <span class="o">=</span> <span class="nx">VotesCollection</span><span class="o">::</span><span class="na">make</span><span class="p">(</span><span class="nv">$recentVotes</span><span class="p">);</span>
+</pre></div>
+</td></tr></table></div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="clients/bills.html" class="btn btn-neutral float-right" title="Bills Client" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="installation.html" class="btn btn-neutral" title="Installation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Matthew Moore
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+    
+
+  
+
+  <script type="text/javascript" src="_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
